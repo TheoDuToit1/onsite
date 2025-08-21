@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-navy: #0A2342;
+  --brand-orange: #F25C05;
+  --brand-sky: #3DB2FF;
+  --neutral-100: #F7F7F7;
+  --neutral-200: #F2F2F2;
+  --neutral-400: #B8B8B8;
+  --neutral-700: #555555;
+  --neutral-900: #1F1F1F;
+  --success: #2ECC71;
+  --danger: #E74C3C;
+}
+
+html, body, #root { height: 100%; }
+html { scroll-behavior: smooth; }
+
+body {
+  @apply bg-neutral-100 text-neutral-900 font-sans antialiased;
+}
+
+/* Focus ring */
+*:focus-visible {
+  outline: 2px solid var(--brand-sky);
+  outline-offset: 2px;
+}
+
+/* Utility for press feedback */
+.pressable:active { transform: scale(0.98); }
+
+/* Scrollbars */
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb { background: var(--neutral-400); border-radius: 8px; }
+
+/* Anchor offset for in-page navigation */
+[id] { scroll-margin-top: 80px; }
