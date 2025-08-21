@@ -40,55 +40,108 @@ export default function LoginPage() {
 
   return (
     <AuthLayout>
-      <div className="space-y-6">
-        <BackButton className="mb-2" onClick={() => navigate('/welcome')} />
-        <div className="space-y-2">
-          <TypeTagline mobilePinned="top" />
-          <h1 className="text-xl font-semibold">Run your business. All OnSite.</h1>
-          <p className="text-sm text-neutral-700">Simple tools for quotes, jobs, and payments.</p>
+      <div className="space-y-5 sm:space-y-6">
+        <div className="flex flex-col space-y-2">
+          <BackButton className="self-start" onClick={() => navigate('/welcome')} />
+          <TypeTagline />
+        </div>
+        
+        <div className="space-y-2 sm:space-y-3">
+          <h1 className="text-xl sm:text-2xl font-semibold">Run your business. All OnSite.</h1>
+          <p className="text-sm sm:text-base text-neutral-700">Simple tools for quotes, jobs, and payments.</p>
         </div>
 
-        <div className="flex gap-1 bg-neutral-200 p-1 rounded-xl text-sm">
-          <Button type="button" variant={mode==='email' ? 'default' : 'secondary'} className="flex-1" onClick={()=>setValue('mode','email')}>Email</Button>
-          <Button type="button" variant={mode==='phone' ? 'default' : 'secondary'} className="flex-1" onClick={()=>setValue('mode','phone')}>Phone</Button>
+        <div className="flex gap-1 bg-neutral-200 p-1 rounded-xl text-sm sm:text-base">
+          <Button 
+            type="button" 
+            variant={mode==='email' ? 'default' : 'secondary'} 
+            className="flex-1 py-2 text-sm sm:text-base" 
+            onClick={()=>setValue('mode','email')}
+          >
+            Email
+          </Button>
+          <Button 
+            type="button" 
+            variant={mode==='phone' ? 'default' : 'secondary'} 
+            className="flex-1 py-2 text-sm sm:text-base" 
+            onClick={()=>setValue('mode','phone')}
+          >
+            Phone
+          </Button>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-5">
           {mode==='email' ? (
             <>
               <div>
-                <Label>Email</Label>
-                <Input type="email" className="mt-1" placeholder="you@business.com" {...register('email')} />
-                {errors.email && <p className="text-danger text-sm mt-1">{errors.email.message}</p>}
+                <Label className="text-sm sm:text-base">Email</Label>
+                <Input 
+                  type="email" 
+                  className="mt-1 h-11 sm:h-12 text-base" 
+                  placeholder="you@business.com" 
+                  {...register('email')} 
+                />
+                {errors.email && <p className="text-danger text-xs sm:text-sm mt-1">{errors.email.message}</p>}
               </div>
               <div>
-                <Label>Password</Label>
-                <Input type="password" className="mt-1" placeholder="••••••••" {...register('password')} />
-                {errors.password && <p className="text-danger text-sm mt-1">{errors.password.message}</p>}
+                <Label className="text-sm sm:text-base">Password</Label>
+                <Input 
+                  type="password" 
+                  className="mt-1 h-11 sm:h-12 text-base" 
+                  placeholder="••••••••" 
+                  {...register('password')} 
+                />
+                {errors.password && <p className="text-danger text-xs sm:text-sm mt-1">{errors.password.message}</p>}
               </div>
             </>
           ) : (
             <div>
-              <Label>Phone</Label>
-              <Input type="tel" className="mt-1" placeholder="+15551234567" {...register('phone')} />
-              {errors.phone && <p className="text-danger text-sm mt-1">{errors.phone.message}</p>}
+              <Label className="text-sm sm:text-base">Phone</Label>
+              <Input 
+                type="tel" 
+                className="mt-1 h-11 sm:h-12 text-base" 
+                placeholder="+15551234567" 
+                {...register('phone')} 
+              />
+              {errors.phone && <p className="text-danger text-xs sm:text-sm mt-1">{errors.phone.message}</p>}
             </div>
           )}
 
-          <div className="flex items-center justify-between">
-            <Button type="button" variant="link" className="px-0" onClick={()=>navigate('/reset')}>Forgot password?</Button>
+          <div className="flex items-center justify-between pt-1">
+            <Button 
+              type="button" 
+              variant="link" 
+              className="px-0 text-xs sm:text-sm h-auto" 
+              onClick={()=>navigate('/reset')}
+            >
+              Forgot password?
+            </Button>
           </div>
 
-          <Button type="submit" disabled={isSubmitting} className="w-full">
+          <Button 
+            type="submit" 
+            disabled={isSubmitting} 
+            className="w-full h-11 sm:h-12 text-sm sm:text-base font-medium"
+          >
             {isSubmitting ? 'Signing in…' : 'Continue'}
           </Button>
 
-          <Button type="button" variant="secondary" onClick={()=>{ demoLogin(); toast('Autofilled demo'); navigate('/dashboard') }} className="w-full">
+          <Button 
+            type="button" 
+            variant="outline" 
+            onClick={()=>{ demoLogin(); toast('Autofilled demo'); navigate('/dashboard') }} 
+            className="w-full h-11 sm:h-12 text-sm sm:text-base"
+          >
             Demo Autofill
           </Button>
         </form>
 
-        <p className="text-sm">No account? <Link className="text-brand-sky" to="/signup">Sign up</Link></p>
+        <p className="text-sm sm:text-base text-center">
+          No account?{' '}
+          <Link className="text-brand-sky font-medium" to="/signup">
+            Sign up
+          </Link>
+        </p>
       </div>
     </AuthLayout>
   )

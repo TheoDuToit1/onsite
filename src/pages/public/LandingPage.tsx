@@ -29,7 +29,7 @@ export default function LandingPage() {
       <section>
         <div className="max-w-5xl mx-auto px-4">
           <div className="rounded-2xl border bg-white p-4 sm:p-6 text-center">
-            <h2 className="text-2xl sm:text-3xl font-bold">Stop leaking jobs. Start winning today.</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold">Spend more time making money. We’ll handle the rest.</h2>
             <p className="text-neutral-700 mt-2">Quotes, jobs, payments—one thumb-friendly app. Fewer taps, faster cash, your evenings back.</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center mt-4">
               <Button asChild size="lg"><Link to="/signup">Start Free — Be Live in 5 Minutes</Link></Button>

@@ -46,75 +46,128 @@ export default function SignupPage() {
 
   return (
     <AuthLayout>
-      <div className="space-y-6">
-        <BackButton className="mb-2" onClick={() => navigate('/welcome')} />
-        <div className="space-y-2">
-          <TypeTagline mobilePinned="top" />
-          <h1 className="text-xl font-semibold">Run your business. All OnSite.</h1>
-          <p className="text-sm text-neutral-700">Simple tools for quotes, jobs, and payments.</p>
+      <div className="space-y-5 sm:space-y-6">
+        <div className="flex flex-col space-y-2">
+          <BackButton className="self-start" onClick={() => navigate('/welcome')} />
+          <TypeTagline />
         </div>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+        
+        <div className="space-y-2 sm:space-y-3">
+          <h1 className="text-xl sm:text-2xl font-semibold">Run your business. All OnSite.</h1>
+          <p className="text-sm sm:text-base text-neutral-700">Simple tools for quotes, jobs, and payments.</p>
+        </div>
+        
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-5">
           <div>
-            <Label>Business name</Label>
-            <Input className="mt-1" placeholder="OnSite Heating & Air" {...register('business')} />
-            {errors.business && <p className="text-danger text-sm mt-1">{errors.business.message}</p>}
+            <Label className="text-sm sm:text-base">Business name</Label>
+            <Input 
+              className="mt-1 h-11 sm:h-12 text-base" 
+              placeholder="OnSite Heating & Air" 
+              {...register('business')} 
+            />
+            {errors.business && <p className="text-danger text-xs sm:text-sm mt-1">{errors.business.message}</p>}
           </div>
+          
           <div>
-            <Label>Industry</Label>
-            {/* Hidden input binds to form */}
+            <Label className="text-sm sm:text-base">Industry</Label>
             <input type="hidden" {...register('niche')} />
-            <p className="text-xs text-neutral-700 mt-1">Pick your trade — you can change this later in Settings.</p>
+            <p className="text-xs sm:text-sm text-neutral-700 mt-1">
+              Pick your trade — you can change this later in Settings.
+            </p>
             <div className="mt-2">
-              <Select value={watch('niche') || undefined} onValueChange={(val)=> setValue('niche', val, { shouldValidate: true, shouldDirty: true })}>
-                <SelectTrigger className="h-11">
+              <Select 
+                value={watch('niche') || undefined} 
+                onValueChange={(val)=> setValue('niche', val, { shouldValidate: true, shouldDirty: true })}
+              >
+                <SelectTrigger className="h-11 sm:h-12 text-base">
                   <SelectValue placeholder="Select your trade" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="max-h-[300px] overflow-y-auto">
                   <div className="p-2">
                     <Input
                       placeholder="Search trade..."
                       value={nicheQuery}
                       onChange={(e)=> setNicheQuery(e.target.value)}
                       onKeyDown={(e)=> e.stopPropagation()}
-                      className="h-9"
+                      className="h-9 text-sm sm:text-base"
                     />
                   </div>
                   <SelectGroup>
-                    <SelectLabel>{nicheQuery ? 'Results' : 'Popular trades'}</SelectLabel>
+                    <SelectLabel className="text-xs sm:text-sm">
+                      {nicheQuery ? 'Results' : 'Popular trades'}
+                    </SelectLabel>
                     {filteredTrades.length === 0 ? (
                       <div className="px-2 py-2 text-sm text-neutral-600">No results</div>
                     ) : (
-                      filteredTrades.map((trade)=> (
-                        <SelectItem key={trade} value={trade}>{trade}</SelectItem>
+                      filteredTrades.map((trade) => (
+                        <SelectItem 
+                          key={trade} 
+                          value={trade}
+                          className="text-sm sm:text-base"
+                        >
+                          {trade}
+                        </SelectItem>
                       ))
                     )}
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              <div className="mt-2 flex items-center gap-2">
-                <span className="text-xs text-neutral-700">Selected:</span>
-                <span className="inline-flex items-center rounded-full bg-brand-navy text-white px-2.5 py-1 text-xs">
+              
+              <div className="mt-2 flex items-center gap-2 flex-wrap">
+                <span className="text-xs sm:text-sm text-neutral-700">Selected:</span>
+                <span className="inline-flex items-center rounded-full bg-brand-navy text-white px-3 py-1 text-xs sm:text-sm">
                   {watch('niche') || 'None'}
                 </span>
               </div>
+              
+              {errors.niche && (
+                <p className="text-danger text-xs sm:text-sm mt-1">
+                  {errors.niche.message}
+                </p>
+              )}
             </div>
-            {errors.niche && <p className="text-danger text-sm mt-1">{errors.niche.message}</p>}
           </div>
+          
           <div>
-            <Label>Email</Label>
-            <Input type="email" className="mt-1" placeholder="owner@business.com" {...register('email')} />
-            {errors.email && <p className="text-danger text-sm mt-1">{errors.email.message}</p>}
+            <Label className="text-sm sm:text-base">Email</Label>
+            <Input 
+              type="email" 
+              className="mt-1 h-11 sm:h-12 text-base" 
+              placeholder="owner@business.com" 
+              {...register('email')} 
+            />
+            {errors.email && <p className="text-danger text-xs sm:text-sm mt-1">{errors.email.message}</p>}
           </div>
+          
           <div>
-            <Label>Password</Label>
-            <Input type="password" className="mt-1" placeholder="Strong password" {...register('password')} />
-            {errors.password && <p className="text-danger text-sm mt-1">{errors.password.message}</p>}
+            <Label className="text-sm sm:text-base">Password</Label>
+            <Input 
+              type="password" 
+              className="mt-1 h-11 sm:h-12 text-base" 
+              placeholder="Strong password" 
+              {...register('password')} 
+            />
+            <p className="text-xs text-neutral-600 mt-1">
+              Use at least 8 characters with numbers & symbols
+            </p>
+            {errors.password && <p className="text-danger text-xs sm:text-sm mt-1">{errors.password.message}</p>}
           </div>
-          <Button type="submit" disabled={isSubmitting} className="w-full">
-            {isSubmitting ? 'Creating…' : 'Create account'}
+          
+          <Button 
+            type="submit" 
+            disabled={isSubmitting} 
+            className="w-full h-11 sm:h-12 text-sm sm:text-base font-medium"
+          >
+            {isSubmitting ? 'Creating account…' : 'Create account'}
           </Button>
         </form>
-        <p className="text-sm">Already have an account? <Link className="text-brand-sky" to="/login">Log in</Link></p>
+        
+        <p className="text-sm sm:text-base text-center">
+          Already have an account?{' '}
+          <Link className="text-brand-sky font-medium" to="/login">
+            Log in
+          </Link>
+        </p>
       </div>
     </AuthLayout>
   )
