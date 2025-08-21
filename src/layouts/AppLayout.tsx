@@ -1,13 +1,17 @@
 import { Outlet, NavLink, useLocation } from 'react-router-dom'
 import { Bell, Home, Briefcase, MessageSquare, Wallet, MoreHorizontal, Search, User } from 'lucide-react'
+import { useAuthStore } from '../state/auth'
 
 export default function AppLayout() {
   const location = useLocation()
+  const user = useAuthStore((s) => s.user)
   return (
     <div className="min-h-screen grid md:grid-cols-[240px_1fr]">
       {/* Sidebar (desktop) */}
       <aside className="hidden md:flex flex-col gap-4 border-r bg-white p-4">
-        <div className="text-2xl font-bold text-brand-navy">OnSite</div>
+        <div className="text-2xl font-bold text-brand-navy">
+          OnSite{user?.niche ? <span className="text-base font-medium text-neutral-700"> / {user.niche}</span> : null}
+        </div>
         <nav className="flex flex-col gap-1 text-sm">
           <SideLink to="/dashboard" label="Home" icon={<Home size={18} />} />
           <SideLink to="/jobs" label="Jobs" icon={<Briefcase size={18} />} />

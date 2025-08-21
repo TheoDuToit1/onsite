@@ -6,6 +6,7 @@ interface User {
   name: string
   email?: string
   phone?: string
+  niche?: string
 }
 
 interface AuthState {
@@ -32,5 +33,5 @@ export const useAuthStore = create<AuthState>()(
 )
 
 export const demoLogin = () => {
-  useAuthStore.getState().login({ id: 'u_1', name: 'Alex Contractor', email: 'demo@onsite.app' })
+  useAuthStore.getState().login({ id: 'u_1', name: 'Alex Contractor', email: 'demo@onsite.app', niche: 'Electrician' })
 }

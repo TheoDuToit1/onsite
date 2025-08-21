@@ -38,7 +38,7 @@ const SelectContent = React.forwardRef<
       <SelectPrimitive.ScrollUpButton className="flex items-center justify-center py-1">
         <ChevronUp className="h-4 w-4" />
       </SelectPrimitive.ScrollUpButton>
-      <SelectPrimitive.Viewport className={cn('p-1', position === 'popper' && 'h-[var(--radix-select-trigger-height)] min-w-[var(--radix-select-trigger-width)]')}>{children}</SelectPrimitive.Viewport>
+      <SelectPrimitive.Viewport className={cn('p-1 max-h-48 overflow-y-auto', position === 'popper' && 'min-w-[var(--radix-select-trigger-width)]')}>{children}</SelectPrimitive.Viewport>
       <SelectPrimitive.ScrollDownButton className="flex items-center justify-center py-1">
         <ChevronDown className="h-4 w-4" />
       </SelectPrimitive.ScrollDownButton>

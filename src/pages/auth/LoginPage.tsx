@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import AuthLayout from './AuthLayout'
 import TypeTagline from '@/components/TypeTagline'
+import BackButton from '@/components/BackButton'
 
 const schema = z.object({
   mode: z.enum(['email', 'phone']).default('email'),
@@ -40,6 +41,7 @@ export default function LoginPage() {
   return (
     <AuthLayout>
       <div className="space-y-6">
+        <BackButton className="mb-2" onClick={() => navigate('/welcome')} />
         <div className="space-y-2">
           <TypeTagline mobilePinned="top" />
           <h1 className="text-xl font-semibold">Run your business. All OnSite.</h1>

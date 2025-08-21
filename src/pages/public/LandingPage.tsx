@@ -19,10 +19,25 @@ import {
 
 export default function LandingPage() {
   return (
-    <div className="space-y-16 md:space-y-24 pb-24">
+    <div className="min-h-screen flex flex-col space-y-16 md:space-y-24 pb-24">
       {/* Hero */}
       <section id="welcome" className="pt-0">
         <ExactHeroCarousel />
+      </section>
+
+      {/* Act-now CTA */}
+      <section>
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="rounded-2xl border bg-white p-4 sm:p-6 text-center">
+            <h2 className="text-2xl sm:text-3xl font-bold">Stop leaking jobs. Start winning today.</h2>
+            <p className="text-neutral-700 mt-2">Quotes, jobs, payments—one thumb-friendly app. Fewer taps, faster cash, your evenings back.</p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center mt-4">
+              <Button asChild size="lg"><Link to="/signup">Start Free — Be Live in 5 Minutes</Link></Button>
+              <Button asChild size="lg" variant="secondary"><Link to="/login">Try a Demo</Link></Button>
+            </div>
+            <div className="text-xs text-neutral-600 mt-2">No credit card. Cancel anytime.</div>
+          </div>
+        </div>
       </section>
 
       {/* Differentiators */}
@@ -30,20 +45,20 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-4 gap-4">
           {[{
             icon: Rocket,
-            title: 'Outcome over clicks',
-            text: 'We design for results—fewer screens, faster actions, smarter defaults.',
+            title: 'Fewer taps. More jobs.',
+            text: 'Cut the fluff. Ship quotes, schedule fast, keep the truck moving.',
           },{
             icon: Smartphone,
-            title: 'Mobile-first muscle',
-            text: 'Every control is thumb-ready with sensible spacing and offline-friendly flows.',
+            title: 'Built for the thumb',
+            text: 'Big targets, clear flows, works great on-site and on the go.',
           },{
             icon: Zap,
-            title: 'Blazing setup',
-            text: 'Import clients, add your logo, send your first quote in under 5 minutes.',
+            title: 'Live in 5 minutes',
+            text: 'Import clients, slap on your logo, send your first quote today.',
           },{
             icon: Sparkles,
-            title: 'Human + AI',
-            text: 'Draft quotes, summarize messages, and auto-follow-up—always under your control.',
+            title: 'AI that does the grunt work',
+            text: 'Drafts, summaries, follow-ups—always your call, never out of control.',
           }].map((d) => (
             <Card key={d.title}>
               <CardHeader className="flex flex-row items-center gap-3">
@@ -60,8 +75,8 @@ export default function LandingPage() {
       <section id="features">
         <div className="max-w-6xl mx-auto px-4 space-y-6">
           <div className="text-center">
-            <h2 className="text-2xl sm:text-3xl font-bold">Everything you need—beautifully simple</h2>
-            <p className="text-neutral-700 mt-2">From lead to paid without switching tabs.</p>
+            <h2 className="text-2xl sm:text-3xl font-bold">Your business in one place</h2>
+            <p className="text-neutral-700 mt-2">Move jobs from lead to paid—today, not tomorrow.</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[{
@@ -175,17 +190,17 @@ export default function LandingPage() {
       {/* Final CTA */}
       <section>
         <div className="max-w-5xl mx-auto px-4 text-center space-y-4">
-          <h3 className="text-2xl sm:text-3xl font-bold">Make your next workday frictionless</h3>
-          <p className="text-neutral-700 max-w-2xl mx-auto">Join crews who get more done with OnSite. It’s the tool we wanted on the truck—so we built it.</p>
+          <h3 className="text-2xl sm:text-3xl font-bold">Use OnSite today, not tomorrow.</h3>
+          <p className="text-neutral-700 max-w-2xl mx-auto">Win the job, do the work, get paid—without drowning in admin. Start free and feel the difference in one workday.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button asChild size="lg"><Link to="/signup">Create your free account</Link></Button>
-            <Button asChild size="lg" variant="secondary"><Link to="/login">Log in</Link></Button>
+            <Button asChild size="lg"><Link to="/signup">Start Free Now</Link></Button>
+            <Button asChild size="lg" variant="secondary"><Link to="/login">Try a Demo</Link></Button>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="text-center text-xs text-neutral-600">
+      <footer className="mt-auto border-t py-4 text-center text-xs text-neutral-600">
         © {new Date().getFullYear()} OnSite. Built with care for field service pros.
       </footer>
     </div>
