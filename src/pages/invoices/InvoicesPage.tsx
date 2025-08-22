@@ -8,9 +8,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 
 export default function InvoicesPage() {
   const invoices = [
-    { id: 'i1', client: 'Smith Family', due: '2025-08-22', amount: 420, status: 'Unpaid' as const },
-    { id: 'i2', client: 'Acme LLC', due: '2025-08-25', amount: 1280, status: 'Paid' as const },
-    { id: 'i3', client: 'Lopez Home', due: '2025-08-18', amount: 260, status: 'Overdue' as const },
+    { id: 'i1', client: 'Van der Merwe Residence', due: '2025-08-22', amount: 7560, status: 'Unpaid' as const },
+    { id: 'i2', client: 'Mabaso Enterprises', due: '2025-08-25', amount: 23450, status: 'Paid' as const },
+    { id: 'i3', client: 'Ndlovu Household', due: '2025-08-18', amount: 4680, status: 'Overdue' as const },
   ]
 
   return (
@@ -25,10 +25,10 @@ export default function InvoicesPage() {
       {/* Summary cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
-          { label: 'Outstanding', value: '$680' },
-          { label: 'Overdue', value: '$260' },
-          { label: 'Paid (month)', value: '$6,120' },
-          { label: 'Avg. time to pay', value: '6.2 days' },
+          { label: 'Outstanding', value: 'R12,240' },
+          { label: 'Overdue', value: 'R4,680' },
+          { label: 'Paid (month)', value: 'R110,160' },
+          { label: 'Avg. time to pay', value: '14 days' },
         ].map((s) => (
           <Card key={s.label}>
             <CardContent className="p-4">
@@ -52,13 +52,14 @@ export default function InvoicesPage() {
               <SelectItem value="overdue">Overdue</SelectItem>
             </SelectContent>
           </Select>
-          <Select defaultValue="any">
-            <SelectTrigger className="w-[160px]"><SelectValue placeholder="Date" /></SelectTrigger>
+          <Select defaultValue="financial">
+            <SelectTrigger className="w-[180px]"><SelectValue placeholder="Date range" /></SelectTrigger>
             <SelectContent>
-              <SelectItem value="any">Any time</SelectItem>
+              <SelectItem value="financial">This financial year</SelectItem>
               <SelectItem value="30">Last 30 days</SelectItem>
               <SelectItem value="90">Last 90 days</SelectItem>
-              <SelectItem value="ytd">Year to date</SelectItem>
+              <SelectItem value="month">This month</SelectItem>
+              <SelectItem value="quarter">This quarter</SelectItem>
             </SelectContent>
           </Select>
         </CardContent>
@@ -83,9 +84,9 @@ export default function InvoicesPage() {
                     <Link key={inv.id} to={`/invoices/${inv.id}`} className="flex justify-between p-4 hover:bg-neutral-200/50">
                       <div>
                         <div className="font-semibold">{inv.client}</div>
-                        <div className="text-sm text-neutral-700">Due {inv.due} • {inv.status}</div>
+                        <div className="text-sm text-neutral-700">Due {new Date(inv.due).toLocaleDateString('en-ZA')} • {inv.status}</div>
                       </div>
-                      <div className="font-semibold">${inv.amount}</div>
+                      <div className="font-semibold">{inv.amount.toLocaleString('en-ZA', {style: 'currency', currency: 'ZAR'})}</div>
                     </Link>
                   ))}
                 {invoices.filter(inv => tab==='all' ? true : inv.status.toLowerCase()===tab).length===0 && (

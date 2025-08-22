@@ -34,7 +34,7 @@ export default function QuotesPage() {
           { label: 'Draft', value: draftCount },
           { label: 'Sent', value: sentCount },
           { label: 'Accepted', value: acceptedCount },
-          { label: 'Accepted value', value: `$${acceptedValue}` },
+          { label: 'Accepted value', value: acceptedValue.toLocaleString('en-ZA', { style: 'currency', currency: 'ZAR' }) },
         ].map((s) => (
           <Card key={s.label}>
             <CardContent className="p-4">

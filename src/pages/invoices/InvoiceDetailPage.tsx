@@ -77,16 +77,16 @@ export default function InvoiceDetailPage() {
                   <div key={it.id} className="grid grid-cols-5 gap-2">
                     <div className="col-span-2">{it.name}</div>
                     <div className="text-right">{it.qty}</div>
-                    <div className="text-right">{(it.price).toLocaleString(undefined,{style:'currency',currency:'USD'})}</div>
-                    <div className="text-right font-medium">{(it.qty*it.price).toLocaleString(undefined,{style:'currency',currency:'USD'})}</div>
+                    <div className="text-right">{(it.price).toLocaleString('en-ZA',{style:'currency',currency:'ZAR'})}</div>
+                    <div className="text-right font-medium">{(it.qty*it.price).toLocaleString('en-ZA',{style:'currency',currency:'ZAR'})}</div>
                   </div>
                 ))}
               </div>
               <div className="h-px bg-neutral-200" />
               <div className="space-y-1">
-                <div className="flex justify-between text-sm text-neutral-700"><span>Subtotal</span><span>{totals.subtotal.toLocaleString(undefined,{style:'currency',currency:'USD'})}</span></div>
-                <div className="flex justify-between text-sm text-neutral-700"><span>Tax</span><span>{totals.tax.toLocaleString(undefined,{style:'currency',currency:'USD'})}</span></div>
-                <div className="flex justify-between text-base font-semibold"><span>Total</span><span>{totals.total.toLocaleString(undefined,{style:'currency',currency:'USD'})}</span></div>
+                <div className="flex justify-between text-sm text-neutral-700"><span>Subtotal</span><span>{totals.subtotal.toLocaleString('en-ZA',{style:'currency',currency:'ZAR'})}</span></div>
+                <div className="flex justify-between text-sm text-neutral-700"><span>VAT (15%)</span><span>{totals.tax.toLocaleString('en-ZA',{style:'currency',currency:'ZAR'})}</span></div>
+                <div className="flex justify-between text-base font-semibold"><span>Total</span><span>{totals.total.toLocaleString('en-ZA',{style:'currency',currency:'ZAR'})}</span></div>
               </div>
             </CardContent>
           </Card>

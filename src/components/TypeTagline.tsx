@@ -10,8 +10,25 @@ interface Props {
   size?: 'sm' | 'md' | 'lg'
 }
 
-// Default phrase per spec
-const DEFAULT_WORDS = ['Quotes.', 'Jobs.', 'Payments.', 'All OnSite.']
+// Business name from localStorage or default
+const getBusinessName = () => {
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem('businessName') || 'Team';
+  }
+  return 'Team';
+};
+
+// Ultra-concise messages (max 4 words)
+const DEFAULT_WORDS = [
+  'Welcome back!',
+  'Molo!',
+  'Sawubona!',
+  'Let\'s work!',
+  'Business looking good!',
+  'Time to shine!',
+  'Success starts today!',
+  'Make it count!'
+]
 
 export default function TypeTagline({
   className,
@@ -100,7 +117,7 @@ export default function TypeTagline({
     }
   }, [phase, chars.length, speedMs, pauseEndMs, isActive])
 
-  const sizeClass = size === 'lg' ? 'text-2xl sm:text-3xl font-bold' : size === 'sm' ? 'text-xs sm:text-sm' : 'text-sm sm:text-base'
+  const sizeClass = size === 'lg' ? 'text-3xl sm:text-4xl font-bold' : size === 'sm' ? 'text-base' : 'text-base sm:text-lg'
 
   const mobilePinClass = mobilePinned
     ? `fixed left-4 right-4 z-30 ${mobilePinned === 'bottom' ? 'bottom-20' : 'top-16'} sm:static`

@@ -25,7 +25,7 @@ export default function QuoteBuilderPage() {
     setItems((prev) => prev.map((i) => (i.id === id ? { ...i, ...patch } : i)))
   }
 
-  const currency = (n: number) => n.toLocaleString(undefined, { style: 'currency', currency: 'USD' })
+  const currency = (n: number) => n.toLocaleString('en-ZA', { style: 'currency', currency: 'ZAR' })
   const calc = useMemo(() => {
     const rows = items.map((i) => {
       const base = i.qty * i.price
@@ -130,9 +130,9 @@ export default function QuoteBuilderPage() {
 
                     <TabsContent value="billing">
                       <div className="space-y-2 text-sm">
-                        <div>Outstanding balance: $260</div>
+                        <div>Outstanding balance: R4,299</div>
                         <Link to="/invoices/i3" className="block rounded-xl border p-2 hover:bg-neutral-200/50">
-                          Invoice #INV-220 • Overdue • $260
+                          Invoice #INV-220 • Overdue • R4,299
                         </Link>
                       </div>
                     </TabsContent>

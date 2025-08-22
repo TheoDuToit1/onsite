@@ -188,7 +188,7 @@ export default function SettingsPage() {
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                   <div>
                     <div className="font-medium">Current plan</div>
-                    <div className="text-sm text-neutral-700">Pro — $29/mo</div>
+                    <div className="text-sm text-neutral-700">Pro — R499/mo</div>
                   </div>
                   <Button className="w-full sm:w-auto">Manage billing</Button>
                 </div>

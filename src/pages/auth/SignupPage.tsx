@@ -15,9 +15,12 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSepa
 
 const schema = z.object({
   business: z.string().min(2,'Business name required'),
-  email: z.string().email('Enter a valid email'),
+  email: z.string().email('Enter a valid email address'),
   password: z.string().min(8,'Use at least 8 characters with numbers & symbols'),
-  niche: z.string().min(2, 'Choose your trade')
+  niche: z.string().min(2, 'Choose your trade'),
+  bbee: z.boolean().default(false).refine(val => val === true, {
+    message: 'Please confirm B-BBEE compliance',
+  })
 })
 
 export default function SignupPage() {
@@ -29,11 +32,13 @@ export default function SignupPage() {
 
   const [nicheQuery, setNicheQuery] = useState('')
   const trades = useMemo(() => [
-    'Electrician', 'Plumber', 'HVAC Technician', 'Carpenter', 'Painter', 'Roofer',
-    'Landscaper', 'Cleaner', 'Handyman', 'Locksmith', 'Flooring Installer', 'Tiler',
+    'Electrician', 'Plumber', 'Aircon Technician', 'Carpenter', 'Painter', 'Roofer',
+    'Gardener', 'Domestic Worker', 'Handyman', 'Locksmith', 'Flooring Installer', 'Tiler',
     'Bricklayer', 'Plasterer', 'Glazier', 'Pest Control', 'Pool Service', 'Solar Installer',
-    'Appliance Repair', 'General Contractor', 'Fencing', 'Guttering', 'Tree Service',
-    'Window Cleaning', 'Garage Door', 'Decking'
+    'Appliance Repair', 'Builder', 'Fencing', 'Guttering', 'Tree Felling',
+    'Window Cleaning', 'Gate & Garage', 'Paving', 'Security Installer', 'Alarm Technician',
+    'Electric Fencing', 'Borehole & Irrigation', 'Paving & Driveways', 'Thatching',
+    'Swimming Pool Maintenance', 'Geyser Installations', 'Generator Installations'
   ], [])
   const filteredTrades = useMemo(() => trades.filter(t => t.toLowerCase().includes(nicheQuery.toLowerCase())), [trades, nicheQuery])
 
@@ -53,8 +58,8 @@ export default function SignupPage() {
         </div>
         
         <div className="space-y-2 sm:space-y-3">
-          <h1 className="text-xl sm:text-2xl font-semibold">Run your business. All OnSite.</h1>
-          <p className="text-sm sm:text-base text-neutral-700">Simple tools for quotes, jobs, and payments.</p>
+          <h1 className="text-xl sm:text-2xl font-semibold">Register your business</h1>
+          <p className="text-sm sm:text-base text-neutral-700">Join thousands of South African businesses growing with OnSite</p>
         </div>
         
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-5">
@@ -62,9 +67,10 @@ export default function SignupPage() {
             <Label className="text-sm sm:text-base">Business name</Label>
             <Input 
               className="mt-1 h-11 sm:h-12 text-base" 
-              placeholder="OnSite Heating & Air" 
+              placeholder="e.g. Mzansi Electrical Services" 
               {...register('business')} 
             />
+            <p className="text-xs text-neutral-500 mt-1">Your business name as it appears to clients</p>
             {errors.business && <p className="text-danger text-xs sm:text-sm mt-1">{errors.business.message}</p>}
           </div>
           
@@ -133,9 +139,10 @@ export default function SignupPage() {
             <Input 
               type="email" 
               className="mt-1 h-11 sm:h-12 text-base" 
-              placeholder="owner@business.com" 
+              placeholder="your@business.co.za" 
               {...register('email')} 
             />
+            <p className="text-xs text-neutral-500 mt-1">We'll send important updates to this address</p>
             {errors.email && <p className="text-danger text-xs sm:text-sm mt-1">{errors.email.message}</p>}
           </div>
           

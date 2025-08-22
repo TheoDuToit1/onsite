@@ -14,7 +14,7 @@ import BackButton from '@/components/BackButton'
 const schema = z.object({
   mode: z.enum(['email', 'phone']).default('email'),
   email: z.string().email('Enter a valid email').optional(),
-  phone: z.string().regex(/^\+?[1-9]\d{7,14}$/,{ message: 'Use E.164, e.g. +15551234567'}).optional(),
+  phone: z.string().regex(/^(\+?27|0)[6-8][0-9]{8}$/,{ message: 'Enter a valid SA number, e.g. 0821234567'}).optional(),
   password: z.string().min(6,'Minimum 6 characters').optional(),
 })
 .refine((val)=> (val.mode==='email' ? !!val.email && !!val.password : !!val.phone), {
@@ -47,8 +47,8 @@ export default function LoginPage() {
         </div>
         
         <div className="space-y-2 sm:space-y-3">
-          <h1 className="text-xl sm:text-2xl font-semibold">Run your business. All OnSite.</h1>
-          <p className="text-sm sm:text-base text-neutral-700">Simple tools for quotes, jobs, and payments.</p>
+          <h1 className="text-xl sm:text-2xl font-semibold">Welcome back to OnSite</h1>
+          <p className="text-sm sm:text-base text-neutral-700">Your all-in-one solution for South African businesses</p>
         </div>
 
         <div className="flex gap-1 bg-neutral-200 p-1 rounded-xl text-sm sm:text-base">
@@ -78,19 +78,22 @@ export default function LoginPage() {
                 <Input 
                   type="email" 
                   className="mt-1 h-11 sm:h-12 text-base" 
-                  placeholder="you@business.com" 
+                  placeholder="your@business.co.za" 
                   {...register('email')} 
                 />
                 {errors.email && <p className="text-danger text-xs sm:text-sm mt-1">{errors.email.message}</p>}
               </div>
               <div>
                 <Label className="text-sm sm:text-base">Password</Label>
-                <Input 
-                  type="password" 
-                  className="mt-1 h-11 sm:h-12 text-base" 
-                  placeholder="••••••••" 
-                  {...register('password')} 
-                />
+                <div className="relative">
+                  <Input 
+                    type="password" 
+                    className="mt-1 h-11 sm:h-12 text-base pr-10" 
+                    placeholder="••••••••" 
+                    {...register('password')} 
+                  />
+                  <Link to="/auth/reset" className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-neutral-500 hover:underline">Forgot?</Link>
+                </div>
                 {errors.password && <p className="text-danger text-xs sm:text-sm mt-1">{errors.password.message}</p>}
               </div>
             </>
@@ -108,14 +111,20 @@ export default function LoginPage() {
           )}
 
           <div className="flex items-center justify-between pt-1">
-            <Button 
-              type="button" 
-              variant="link" 
-              className="px-0 text-xs sm:text-sm h-auto" 
-              onClick={()=>navigate('/reset')}
-            >
-              Forgot password?
-            </Button>
+            <div className="space-y-2 text-center">
+              <p className="text-xs text-neutral-500">Or explore with a demo account</p>
+              <Button 
+                type="button" 
+                variant="outline" 
+                className="w-full"
+                onClick={async ()=>{
+                  await demoLogin()
+                  navigate('/dashboard')
+                }}
+              >
+                View Demo
+              </Button>
+            </div>
           </div>
 
           <Button 
@@ -125,23 +134,14 @@ export default function LoginPage() {
           >
             {isSubmitting ? 'Signing in…' : 'Continue'}
           </Button>
-
-          <Button 
-            type="button" 
-            variant="outline" 
-            onClick={()=>{ demoLogin(); toast('Autofilled demo'); navigate('/dashboard') }} 
-            className="w-full h-11 sm:h-12 text-sm sm:text-base"
-          >
-            Demo Autofill
-          </Button>
         </form>
 
-        <p className="text-sm sm:text-base text-center">
-          No account?{' '}
-          <Link className="text-brand-sky font-medium" to="/signup">
-            Sign up
+        <div className="text-center text-sm text-neutral-600">
+          New to OnSite?{' '}
+          <Link to="/signup" className="font-medium text-brand-orange hover:underline">
+            Register your business
           </Link>
-        </p>
+        </div>
       </div>
     </AuthLayout>
   )
