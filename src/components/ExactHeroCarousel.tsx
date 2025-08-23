@@ -134,7 +134,7 @@ export default function ExactHeroCarousel() {
         <div className="list">
           <div className="item" style={{ backgroundImage: "url('/Plumbers.jpg')" }}>
             <div className="content">
-              <TypeTagline size="md" className="text-white" />
+              <TypeTagline words={["Your expertise. Our support. More success."]} size="md" className="text-white" />
               <div className="title">ONSITE FOR</div>
               <div className="name">PLUMBERS</div>
               <div className="des">Book more calls. Quote on-site. Get paid today. Stop losing time to admin—own the job.</div>
@@ -147,7 +147,7 @@ export default function ExactHeroCarousel() {
 
           <div className="item" style={{ backgroundImage: "url('/Roofers.jpg')" }}>
             <div className="content">
-              <TypeTagline size="md" className="text-white" />
+              <TypeTagline words={["Your expertise. Our support. More success."]} size="md" className="text-white" />
               <div className="title">ONSITE FOR</div>
               <div className="name">ROOFERS</div>
               <div className="des">Fast estimates. Clean proposals. Faster approvals. Fill your calendar now, not next month.</div>
@@ -160,7 +160,7 @@ export default function ExactHeroCarousel() {
 
           <div className="item" style={{ backgroundImage: "url('/Mechanics.jpg')" }}>
             <div className="content">
-              <TypeTagline size="md" className="text-white" />
+              <TypeTagline words={["Your expertise. Our support. More success."]} size="md" className="text-white" />
               <div className="title">ONSITE FOR</div>
               <div className="name">MECHANICS</div>
               <div className="des">Schedule, dispatch, and upsell options on the spot. Keep trucks moving and cash flowing.</div>
@@ -173,7 +173,7 @@ export default function ExactHeroCarousel() {
 
           <div className="item" style={{ backgroundImage: "url('/Electricians.jpg')" }}>
             <div className="content">
-              <TypeTagline size="md" className="text-white" />
+              <TypeTagline words={["Your expertise. Our support. More success."]} size="md" className="text-white" />
               <div className="title">ONSITE FOR</div>
               <div className="name">ELECTRICIANS</div>
               <div className="des">Clear quotes, tidy invoices, paid faster. Win the job while you’re still on-site.</div>
@@ -186,7 +186,7 @@ export default function ExactHeroCarousel() {
 
           <div className="item" style={{ backgroundImage: "url('/Cleaners.jpg')" }}>
             <div className="content">
-              <TypeTagline size="md" className="text-white" />
+              <TypeTagline words={["Your expertise. Our support. More success."]} size="md" className="text-white" />
               <div className="title">ONSITE FOR</div>
               <div className="name">CLEANERS</div>
               <div className="des">Recurring schedules, quick-pay links, and zero-hassle follow-ups. Scale with less stress.</div>
@@ -199,7 +199,7 @@ export default function ExactHeroCarousel() {
 
           <div className="item" style={{ backgroundImage: "url('/Pest-control.jpg')" }}>
             <div className="content">
-              <TypeTagline size="md" className="text-white" />
+              <TypeTagline words={["Your expertise. Our support. More success."]} size="md" className="text-white" />
               <div className="title">ONSITE FOR</div>
               <div className="name">PEST CONTROL</div>
               <div className="des">Book inspections, send options, and close on the driveway. Less admin, more revenue.</div>
