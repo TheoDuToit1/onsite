@@ -5,6 +5,11 @@ import { Card, CardContent } from '@/components/ui/card'
 import TypeTagline from '@/components/TypeTagline'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import ExpenseForm from '@/components/expenses/ExpenseForm'
+import { useFinanceStore } from '@/state/finance'
+import { useEffect, useMemo, useState } from 'react'
+import { ResponsiveContainer, ComposedChart, Bar, XAxis, YAxis, Tooltip, Legend, Line, CartesianGrid } from 'recharts'
+import PageIntro from '@/components/PageIntro'
 
 // Helper functions
 const getBusinessName = () => {
@@ -36,6 +41,32 @@ const getRandomTip = () => {
 };
 
 export default function DashboardPage() {
+  const getMonthlySummary = useFinanceStore((s) => s.getMonthlySummary)
+  const exportCSV = useFinanceStore((s) => s.exportCSV)
+  const exportPDF = useFinanceStore((s) => s.exportPDF)
+  const data = useMemo(() => getMonthlySummary().slice(-6), [getMonthlySummary])
+  // Getting Started checklist (persist in localStorage)
+  const [checklist, setChecklist] = useState([
+    { id: 'client', label: 'Add your first client', to: '/clients/new', done: false },
+    { id: 'job', label: 'Create your first job', to: '/jobs/new', done: false },
+    { id: 'quote', label: 'Send a quote', to: '/quotes/new', done: false },
+    { id: 'invoice', label: 'Create an invoice', to: '/invoices/new', done: false },
+  ])
+  useEffect(() => {
+    const raw = localStorage.getItem('gs-v1')
+    if (raw) {
+      try { setChecklist((prev) => prev.map(s => ({ ...s, done: !!JSON.parse(raw)[s.id] }))) } catch {}
+    }
+  }, [])
+  const toggleDone = (id: string) => {
+    setChecklist((prev) => {
+      const next = prev.map((s) => s.id === id ? { ...s, done: !s.done } : s)
+      const map: Record<string, boolean> = {}
+      next.forEach((s) => { map[s.id] = s.done })
+      localStorage.setItem('gs-v1', JSON.stringify(map))
+      return next
+    })
+  }
   return (
     <div className="space-y-6 p-4 md:p-6 max-w-7xl mx-auto">
       {/* Header with greeting and stats */}
@@ -56,24 +87,66 @@ export default function DashboardPage() {
             </p>
           </div>
           
-          {/* Quick Stats */}
-          <div className="grid grid-cols-3 gap-3 min-w-fit">
-            {[
-              { label: 'Status', value: 'Active', color: 'bg-green-500' },
-              { label: 'Rating', value: '4.8/5.0', color: 'bg-amber-400' },
-              { label: 'On Time', value: '98%', color: 'bg-blue-500' },
-            ].map((stat) => (
-              <div key={stat.label} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-3 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
-                <div className="text-xs text-muted-foreground">{stat.label}</div>
-                <div className="flex items-center gap-2 mt-1">
-                  <span className={`w-2 h-2 rounded-full ${stat.color}`}></span>
-                  <span className="font-semibold">{stat.value}</span>
+          {/* Quick Stats + Info */}
+          <div className="flex items-start gap-3">
+            <div className="grid grid-cols-3 gap-3 min-w-fit">
+              {[
+                { label: 'Status', value: 'Active', color: 'bg-green-500' },
+                { label: 'Rating', value: '4.8/5.0', color: 'bg-amber-400' },
+                { label: 'On Time', value: '98%', color: 'bg-blue-500' },
+              ].map((stat) => (
+                <div key={stat.label} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-3 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+                  <div className="text-xs text-muted-foreground">{stat.label}</div>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className={`w-2 h-2 rounded-full ${stat.color}`}></span>
+                    <span className="font-semibold">{stat.value}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            <PageIntro
+              pageKey="dashboard"
+              title="Dashboard"
+              intro="Your command center. Track today, act quickly, and understand your money at a glance."
+              bullets={[
+                'Quick stats: health indicators for your business',
+                'Quick actions: jump to common tasks (new job, quote, client)',
+                "Status overview: helpful context like load shedding and holidays",
+                'Your Money: snapshot of revenue, overdue, VAT',
+                'Getting Started: guided checklist to set up core items',
+                'Expenses & Cashflow: add expenses and view income vs expenses with net profit'
+              ]}
+            />
           </div>
         </div>
       </header>
+
+      {/* Getting Started */}
+      <Card>
+        <CardContent className="p-4">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-semibold">Getting Started</h2>
+            <div className="text-sm text-neutral-600">
+              {checklist.filter(s=>s.done).length} / {checklist.length} complete
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {checklist.map((s) => (
+              <div key={s.id} className={`flex items-center justify-between gap-3 rounded-xl border p-3 ${s.done ? 'bg-emerald-50 border-emerald-200' : ''}`}>
+                <div className="flex items-center gap-3">
+                  <button onClick={() => toggleDone(s.id)} className={`w-6 h-6 rounded-full border flex items-center justify-center ${s.done ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-neutral-300'}`} aria-label="Mark complete">
+                    {s.done ? <CheckCircle size={16} /> : <span className="w-3 h-3 rounded-full" />}
+                  </button>
+                  <div className="font-medium">{s.label}</div>
+                </div>
+                <Button asChild size="sm" variant={s.done ? 'secondary' : 'default'}>
+                  <Link to={s.to}>{s.done ? 'View' : 'Start'}</Link>
+                </Button>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -356,6 +429,41 @@ export default function DashboardPage() {
           ))}
         </CardContent>
       </Card>
+
+      {/* Expenses & Cashflow */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between gap-2">
+          <h2 className="text-lg font-semibold">Expenses & Cashflow</h2>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={exportCSV}>Export CSV</Button>
+            <Button onClick={exportPDF}>Export PDF</Button>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {/* Add Expense */}
+          <div className="space-y-2">
+            <div className="text-sm text-neutral-700">Add expense: amount, description, link to a job (optional)</div>
+            <ExpenseForm />
+          </div>
+          {/* Chart */}
+          <Card>
+            <CardContent className="p-4 h-[320px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <ComposedChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip formatter={(val: any) => `R ${Number(val).toLocaleString('en-ZA')}`} />
+                  <Legend />
+                  <Bar dataKey="income" name="Income" fill="#10b981" radius={[6,6,0,0]} isAnimationActive animationBegin={100} animationDuration={600} />
+                  <Bar dataKey="expenses" name="Expenses" fill="#ef4444" radius={[6,6,0,0]} isAnimationActive animationBegin={200} animationDuration={700} />
+                  <Line type="monotone" dataKey="net" name="Net Profit" stroke="#f59e0b" strokeWidth={2} dot={false} isAnimationActive />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
   )
 }

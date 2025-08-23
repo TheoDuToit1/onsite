@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Link } from 'react-router-dom'
+import PageHeader from '@/components/PageHeader'
 
 type Conversation = { id: string; name: string; preview: string; unread?: boolean }
 type Message = { id: string; from: 'client' | 'me'; text: string; time: string }
@@ -24,7 +25,9 @@ export default function InboxPage() {
   ]
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[320px_1fr] gap-4 pb-24 md:pb-0">
+    <div className="space-y-4">
+      <PageHeader title="Inbox" />
+      <div className="grid grid-cols-1 md:grid-cols-[320px_1fr] gap-4 pb-24 md:pb-0">
       {/* Sidebar */}
       <Card>
         <CardContent className="p-3 space-y-3">
@@ -96,6 +99,7 @@ export default function InboxPage() {
           </form>
         </CardContent>
       </Card>
+      </div>
     </div>
   )
 }

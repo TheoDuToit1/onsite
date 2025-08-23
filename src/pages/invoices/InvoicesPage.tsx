@@ -1,12 +1,24 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Card, CardContent } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
-import TypeTagline from '@/components/TypeTagline'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import PageHeader from '@/components/PageHeader'
+import PageIntro from '@/components/PageIntro'
+import { useEffect, useState } from 'react'
 
 export default function InvoicesPage() {
+  const location = useLocation()
+  const [tab, setTab] = useState<'all'|'unpaid'|'paid'|'overdue'>('all')
+
+  useEffect(() => {
+    const hash = (location.hash || '').replace('#', '') as typeof tab | ''
+    const allowed = ['all','unpaid','paid','overdue'] as const
+    if (hash && (allowed as readonly string[]).includes(hash)) {
+      setTab(hash as typeof tab)
+    }
+  }, [location.hash])
   const invoices = [
     { id: 'i1', client: 'Van der Merwe Residence', due: '2025-08-22', amount: 7560, status: 'Unpaid' as const },
     { id: 'i2', client: 'Mabaso Enterprises', due: '2025-08-25', amount: 23450, status: 'Paid' as const },
@@ -15,12 +27,27 @@ export default function InvoicesPage() {
 
   return (
     <div className="space-y-4">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Invoices & Payments</h1>
-        <Button asChild><Link to="/invoices/new">Create invoice</Link></Button>
-      </div>
-      <TypeTagline />
+      <PageHeader
+        title="Invoices & Payments"
+        actions={(
+          <div className="flex items-center gap-2">
+            <PageIntro
+              pageKey="invoices"
+              title="Invoices & Payments"
+              intro="Create, track, and collect payments faster. Filter by status and keep cashflow healthy."
+              bullets={[
+                'Create: generate professional invoices in minutes',
+                'Statuses: All, Unpaid, Paid, Overdue with quick filters',
+                'Search & filters: find invoices by client or number',
+                'Payments: record payments and reduce overdue balances'
+              ]}
+            />
+            <Button asChild>
+              <Link to="/invoices/new">Create invoice</Link>
+            </Button>
+          </div>
+        )}
+      />
 
       {/* Summary cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -66,7 +93,7 @@ export default function InvoicesPage() {
       </Card>
 
       {/* Lists */}
-      <Tabs defaultValue="all" className="space-y-3">
+      <Tabs value={tab} onValueChange={(v)=>setTab(v as typeof tab)} className="space-y-3">
         <TabsList>
           <TabsTrigger value="all">All</TabsTrigger>
           <TabsTrigger value="unpaid">Unpaid</TabsTrigger>

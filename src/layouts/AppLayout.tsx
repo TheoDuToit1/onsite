@@ -1,8 +1,9 @@
 import { Outlet, NavLink, useLocation, useNavigate } from 'react-router-dom'
-import { Bell, Home, Briefcase, MessageSquare, Wallet, MoreHorizontal, Search, User, Calendar, FileSignature, FileText, Users, BarChart3 } from 'lucide-react'
+import { Bell, Home, Briefcase, MessageSquare, Wallet, MoreHorizontal, Search, User, Calendar, FileSignature, FileText, Users, BarChart3, Megaphone } from 'lucide-react'
 import { useAuthStore } from '../state/auth'
 import { useEffect, useState } from 'react'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { TooltipProvider } from '@/components/ui/tooltip'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from '@/components/ui/command'
 
 export default function AppLayout() {
@@ -10,6 +11,7 @@ export default function AppLayout() {
   const navigate = useNavigate()
   const [openCmd, setOpenCmd] = useState(false)
   const user = useAuthStore((s) => s.user)
+  const needsOnboarding = useAuthStore((s) => s.needsOnboarding)
   // Keyboard shortcut: Ctrl/Cmd + K to open command palette
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -22,6 +24,7 @@ export default function AppLayout() {
     return () => window.removeEventListener('keydown', onKey)
   }, [])
   return (
+    <TooltipProvider>
     <div className="min-h-screen grid md:grid-cols-[240px_1fr]">
       {/* Sidebar (desktop) */}
       <aside className="hidden md:flex flex-col gap-4 border-r border-neutral-200 bg-gradient-to-b from-white to-neutral-50 p-4">
@@ -30,34 +33,23 @@ export default function AppLayout() {
         </div>
         <nav className="flex flex-col gap-3 text-sm">
           <div>
-            <div className="px-3 pb-1 text-[11px] uppercase tracking-wide text-neutral-500">Work</div>
+            <div className="px-3 pb-1 text-[11px] uppercase tracking-wide text-neutral-500">Main</div>
             <div className="flex flex-col gap-1">
               <SideLink to="/dashboard" label="Dashboard" icon={<Home size={18} />} />
               <SideLink to="/jobs" label="Jobs" icon={<Briefcase size={18} />} />
-              <SideLink to="/calendar" label="Calendar" icon={<Calendar size={18} />} />
-            </div>
-          </div>
-          <hr className="border-neutral-200" />
-          <div>
-            <div className="px-3 pb-1 text-[11px] uppercase tracking-wide text-neutral-500">Sales</div>
-            <div className="flex flex-col gap-1">
-              <SideLink to="/quotes" label="Quotes" icon={<FileSignature size={18} />} />
-              <SideLink to="/invoices" label="Invoices" icon={<FileText size={18} />} />
-              <SideLink to="/clients" label="Clients" icon={<Users size={18} />} />
-            </div>
-          </div>
-          <hr className="border-neutral-200" />
-          <div>
-            <div className="px-3 pb-1 text-[11px] uppercase tracking-wide text-neutral-500">Communication</div>
-            <div className="flex flex-col gap-1">
-              <SideLink to="/inbox" label="Inbox" icon={<MessageSquare size={18} />} />
+              {!needsOnboarding && (
+                <>
+                  <SideLink to="/marketing" label="Marketing" icon={<Megaphone size={18} />} />
+                  <SideLink to="/invoices" label="Invoices" icon={<FileText size={18} />} />
+                  <SideLink to="/clients" label="Clients" icon={<Users size={18} />} />
+                </>
+              )}
             </div>
           </div>
           <hr className="border-neutral-200" />
           <div>
             <div className="px-3 pb-1 text-[11px] uppercase tracking-wide text-neutral-500">System</div>
             <div className="flex flex-col gap-1">
-              <SideLink to="/reports" label="Reports" icon={<BarChart3 size={18} />} />
               <SideLink to="/settings" label="Settings" icon={<MoreHorizontal size={18} />} />
             </div>
           </div>
@@ -79,9 +71,9 @@ export default function AppLayout() {
                 <Search size={16} />
                 <span className="hidden lg:inline">Search (Ctrl/Cmd + K)</span>
               </button>
-              <button aria-label="Notifications" className="p-2 rounded-full hover:bg-neutral-200">
+              <NavLink to="/notifications" aria-label="Notifications" className="p-2 rounded-full hover:bg-neutral-200">
                 <Bell size={18} />
-              </button>
+              </NavLink>
               <NavLink to="/settings" className="p-2 rounded-full hover:bg-neutral-200">
                 <User size={18} />
               </NavLink>
@@ -112,19 +104,7 @@ export default function AppLayout() {
                 </CommandEmpty>
 
                 <CommandGroup heading="QUICK ACTIONS">
-                  <CommandItem value="new quote create" onSelect={() => { navigate('/quotes/new'); setOpenCmd(false) }} className="px-3 py-2.5 rounded-xl hover:bg-orange-100/60 aria-selected:bg-orange-200/80 cursor-pointer">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center">
-                        <FileSignature className="h-4 w-4 text-white" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="font-medium text-neutral-900">New Quote</div>
-                        <div className="text-xs text-neutral-600">Create and send a quote</div>
-                      </div>
-                      <div className="text-xs text-neutral-400">⌘N</div>
-                    </div>
-                  </CommandItem>
-                  <CommandItem value="new job create" onSelect={() => { navigate('/jobs'); setOpenCmd(false) }} className="px-3 py-2.5 rounded-xl hover:bg-orange-100/60 aria-selected:bg-orange-200/80 cursor-pointer">
+                  <CommandItem value="new job create" onSelect={() => { navigate('/jobs/new'); setOpenCmd(false) }} className="px-3 py-2.5 rounded-xl hover:bg-orange-100/60 aria-selected:bg-orange-200/80 cursor-pointer">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center">
                         <Briefcase className="h-4 w-4 text-white" />
@@ -134,6 +114,18 @@ export default function AppLayout() {
                         <div className="text-xs text-neutral-600">Start a new project</div>
                       </div>
                       <div className="text-xs text-neutral-400">⌘J</div>
+                    </div>
+                  </CommandItem>
+                  <CommandItem value="new invoice create" onSelect={() => { navigate('/invoices/new'); setOpenCmd(false) }} className="px-3 py-2.5 rounded-xl hover:bg-orange-100/60 aria-selected:bg-orange-200/80 cursor-pointer">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center">
+                        <FileText className="h-4 w-4 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-medium text-neutral-900">New Invoice</div>
+                        <div className="text-xs text-neutral-600">Create and send an invoice</div>
+                      </div>
+                      <div className="text-xs text-neutral-400">⌘I</div>
                     </div>
                   </CommandItem>
                 </CommandGroup>
@@ -151,12 +143,6 @@ export default function AppLayout() {
                       <span className="font-medium text-neutral-900">Jobs</span>
                     </div>
                   </CommandItem>
-                  <CommandItem value="quotes estimates" onSelect={() => { navigate('/quotes'); setOpenCmd(false) }} className="px-3 py-2 rounded-xl hover:bg-orange-100/60 aria-selected:bg-orange-200/80 cursor-pointer">
-                    <div className="flex items-center gap-3">
-                      <FileSignature className="h-4 w-4 text-orange-600" />
-                      <span className="font-medium text-neutral-900">Quotes</span>
-                    </div>
-                  </CommandItem>
                   <CommandItem value="invoices billing" onSelect={() => { navigate('/invoices'); setOpenCmd(false) }} className="px-3 py-2 rounded-xl hover:bg-orange-100/60 aria-selected:bg-orange-200/80 cursor-pointer">
                     <div className="flex items-center gap-3">
                       <FileText className="h-4 w-4 text-orange-600" />
@@ -167,12 +153,6 @@ export default function AppLayout() {
                     <div className="flex items-center gap-3">
                       <Users className="h-4 w-4 text-orange-600" />
                       <span className="font-medium text-neutral-900">Clients</span>
-                    </div>
-                  </CommandItem>
-                  <CommandItem value="calendar schedule" onSelect={() => { navigate('/calendar'); setOpenCmd(false) }} className="px-3 py-2 rounded-xl hover:bg-orange-100/60 aria-selected:bg-orange-200/80 cursor-pointer">
-                    <div className="flex items-center gap-3">
-                      <Calendar className="h-4 w-4 text-orange-600" />
-                      <span className="font-medium text-neutral-900">Calendar</span>
                     </div>
                   </CommandItem>
                 </CommandGroup>
@@ -189,12 +169,13 @@ export default function AppLayout() {
         <nav className="md:hidden fixed bottom-0 inset-x-0 border-t bg-white grid grid-cols-5">
           <TabLink to="/dashboard" label="Home" icon={<Home size={20} />} />
           <TabLink to="/jobs" label="Jobs" icon={<Briefcase size={20} />} />
-          <TabLink to="/inbox" label="Inbox" icon={<MessageSquare size={20} />} />
           <TabLink to="/invoices" label="Invoices" icon={<Wallet size={20} />} />
+          <TabLink to="/clients" label="Clients" icon={<Users size={20} />} />
           <TabLink to="/settings" label="More" icon={<MoreHorizontal size={20} />} />
         </nav>
       </div>
     </div>
+    </TooltipProvider>
   )
 }
 

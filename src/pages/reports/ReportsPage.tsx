@@ -30,6 +30,7 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import PageHeader from '@/components/PageHeader'
 
 // Sample data for charts
 const monthlyRevenue = [
@@ -100,27 +101,25 @@ export default function ReportsPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-neutral-900">Reports & Analytics</h1>
-          <p className="text-neutral-600">Track your business performance and insights</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <Select value={timeRange} onValueChange={setTimeRange}>
-            <SelectTrigger className="w-40">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1month">Last Month</SelectItem>
-              <SelectItem value="3months">Last 3 Months</SelectItem>
-              <SelectItem value="6months">Last 6 Months</SelectItem>
-              <SelectItem value="1year">Last Year</SelectItem>
-            </SelectContent>
-          </Select>
-          <Button variant="outline">Export PDF</Button>
-        </div>
-      </div>
+      <PageHeader
+        title="Reports & Analytics"
+        actions={(
+          <div className="flex items-center gap-3">
+            <Select value={timeRange} onValueChange={setTimeRange}>
+              <SelectTrigger className="w-40">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="1month">Last Month</SelectItem>
+                <SelectItem value="3months">Last 3 Months</SelectItem>
+                <SelectItem value="6months">Last 6 Months</SelectItem>
+                <SelectItem value="1year">Last Year</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button variant="outline">Export PDF</Button>
+          </div>
+        )}
+      />
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

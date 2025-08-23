@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
+import PageHeader from '@/components/PageHeader'
+import PageIntro from '@/components/PageIntro'
 
 export default function ClientsPage() {
   const clients = [
@@ -8,10 +10,27 @@ export default function ClientsPage() {
   ]
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Clients</h1>
-        <Button asChild><Link to="/clients/new">New client</Link></Button>
-      </div>
+      <PageHeader
+        title="Clients"
+        actions={(
+          <div className="flex items-center gap-2">
+            <PageIntro
+              pageKey="clients"
+              title="Clients"
+              intro="Manage your customer base and view lifetime value, recent jobs, and contact info."
+              bullets={[
+                'Create: add new client records with essentials',
+                'Details: see jobs, invoices, balance, and notes',
+                'Search: quickly find clients by name',
+                'LTV: understand your most valuable customers'
+              ]}
+            />
+            <Button asChild>
+              <Link to="/clients/new">New client</Link>
+            </Button>
+          </div>
+        )}
+      />
       <div className="rounded-2xl bg-white border shadow-soft divide-y">
         {clients.map(c => (
           <Link key={c.id} to={`/clients/${c.id}`} className="flex justify-between p-4 hover:bg-neutral-200/50">

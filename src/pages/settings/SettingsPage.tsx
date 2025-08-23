@@ -9,6 +9,8 @@ import { Textarea } from '@/components/ui/textarea'
 import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/state/auth'
+import PageHeader from '@/components/PageHeader'
+import PageIntro from '@/components/PageIntro'
 
 export default function SettingsPage() {
   const navigate = useNavigate()
@@ -18,7 +20,24 @@ export default function SettingsPage() {
   const onLogout = () => { logout(); navigate('/welcome', { replace: true }) }
   return (
     <div className="space-y-4">
-      <h1 className="text-xl font-semibold">Settings</h1>
+      <PageHeader 
+        title="Settings" 
+        actions={(
+          <PageIntro
+            pageKey="settings"
+            title="Settings"
+            intro="Configure your business, team, documents, and notifications. These preferences power quotes and invoices."
+            bullets={[
+              'Profile: your personal details',
+              'Business: name, address, tax rates used on documents',
+              'Team: invite teammates and set roles',
+              'Templates: default quote/invoice texts',
+              'Integrations: Stripe, QuickBooks and more',
+              'Notifications: choose how you get notified'
+            ]}
+          />
+        )}
+      />
       <Tabs defaultValue="profile" className="space-y-4">
         <TabsList className="flex flex-wrap gap-2 mb-3 sm:mb-4">
           <TabsTrigger value="profile" className="flex-1 sm:flex-none">Profile</TabsTrigger>

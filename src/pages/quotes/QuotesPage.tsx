@@ -1,12 +1,23 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Card, CardContent } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
-import TypeTagline from '@/components/TypeTagline'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import PageHeader from '@/components/PageHeader'
+import { useEffect, useState } from 'react'
 
 export default function QuotesPage() {
+  const location = useLocation()
+  const [tab, setTab] = useState<'all'|'draft'|'sent'|'accepted'|'declined'>('all')
+
+  useEffect(() => {
+    const hash = (location.hash || '').replace('#', '') as typeof tab | ''
+    const allowed = ['all','draft','sent','accepted','declined'] as const
+    if (hash && (allowed as readonly string[]).includes(hash)) {
+      setTab(hash as typeof tab)
+    }
+  }, [location.hash])
   const quotes = [
     { id: 'q1', client: 'Smith Family', total: 420, status: 'Draft' as const },
     { id: 'q2', client: 'Acme LLC', total: 1280, status: 'Sent' as const },
@@ -21,12 +32,14 @@ export default function QuotesPage() {
 
   return (
     <div className="space-y-4">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Quotes</h1>
-        <Button asChild><Link to="/quotes/new">Create quote</Link></Button>
-      </div>
-      <TypeTagline />
+      <PageHeader
+        title="Quotes"
+        actions={(
+          <Button asChild>
+            <Link to="/quotes/new">Create quote</Link>
+          </Button>
+        )}
+      />
 
       {/* Summary cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -72,7 +85,7 @@ export default function QuotesPage() {
       </Card>
 
       {/* Lists */}
-      <Tabs defaultValue="all" className="space-y-3">
+      <Tabs value={tab} onValueChange={(v)=>setTab(v as typeof tab)} className="space-y-3">
         <TabsList>
           <TabsTrigger value="all">All</TabsTrigger>
           <TabsTrigger value="draft">Draft</TabsTrigger>

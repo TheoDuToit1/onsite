@@ -51,6 +51,9 @@ const getPageMessages = (pathname: string): string[] => {
     case '/settings':
       return ['Your business, your way. We adapt to how you work best.'];
     
+    case '/marketing':
+      return ['Get discovered and win more work. Campaigns, reviews, and referrals in one place.'];
+    
     default:
       // For landing page and other pages, keep original short messages
       return [

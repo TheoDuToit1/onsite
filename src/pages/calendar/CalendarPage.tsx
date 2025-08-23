@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { Calendar } from '@/components/ui/calendar'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Plus, Clock, MapPin, Users, Calendar as CalendarIcon, Briefcase, FileSignature } from 'lucide-react'
 import { motion } from 'framer-motion'
+import PageHeader from '@/components/PageHeader'
 
 interface Event {
   id: string
@@ -106,20 +107,17 @@ export default function CalendarPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-neutral-900">Calendar</h1>
-          <p className="text-neutral-600">Manage your schedule and appointments</p>
-        </div>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-orange-600 hover:bg-orange-700">
-              <Plus className="h-4 w-4 mr-2" />
-              Add Event
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-md">
+      <PageHeader
+        title="Calendar"
+        actions={(
+          <Button className="bg-orange-600 hover:bg-orange-700" onClick={() => setIsDialogOpen(true)}>
+            <Plus className="h-4 w-4 mr-2" />
+            Add Event
+          </Button>
+        )}
+      />
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="max-w-md">
             <DialogHeader>
               <DialogTitle>Add New Event</DialogTitle>
             </DialogHeader>
@@ -192,7 +190,6 @@ export default function CalendarPage() {
             </div>
           </DialogContent>
         </Dialog>
-      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Calendar */}
