@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useLocation } from 'react-router-dom'
 
 interface Props {
   className?: string
@@ -18,28 +19,65 @@ const getBusinessName = () => {
   return 'Team';
 };
 
-// Ultra-concise messages (max 4 words)
-const DEFAULT_WORDS = [
-  'Welcome back!',
-  'Molo!',
-  'Sawubona!',
-  'Let\'s work!',
-  'Business looking good!',
-  'Time to shine!',
-  'Success starts today!',
-  'Make it count!'
-]
+// Page-specific contextual messages
+const getPageMessages = (pathname: string): string[] => {
+  switch (pathname) {
+    case '/login':
+    case '/signup':
+      return ['Start your journey. Bring your expertise. We\'ll back you every step.'];
+    
+    case '/dashboard':
+      return ['Your work. Your progress. Supported with the tools to succeed.'];
+    
+    case '/invoices':
+    case '/reports':
+      return ['Manage money with confidence. We handle the support, you grow the business.'];
+    
+    case '/jobs':
+      return ['Your skills create opportunities. We\'ll help you find and win them.'];
+    
+    case '/inbox':
+      return ['Conversations that move you forward. We keep everything organized and supported.'];
+    
+    case '/quotes':
+      return ['Turn expertise into earnings. We\'ll help you present it with impact.'];
+    
+    case '/calendar':
+      return ['Your schedule. Your time. We help you make the most of both.'];
+    
+    case '/clients':
+      return ['Build lasting relationships. We help you serve them better.'];
+    
+    case '/settings':
+      return ['Your business, your way. We adapt to how you work best.'];
+    
+    default:
+      // For landing page and other pages, keep original short messages
+      return [
+        'Welcome back!',
+        'Molo!',
+        'Sawubona!',
+        'Let\'s work!',
+        'Business looking good!',
+        'Time to shine!',
+        'Success starts today!',
+        'Make it count!'
+      ];
+  }
+};
 
 export default function TypeTagline({
   className,
-  words = DEFAULT_WORDS,
+  words,
   speedMs = 60,
   pauseEndMs = 1000,
   mobilePinned = false,
   size = 'md',
 }: Props) {
+  const location = useLocation()
+  const contextualWords = words || getPageMessages(location.pathname)
   const [phase, setPhase] = useState<'in' | 'pauseIn' | 'out' | 'pauseOut'>('in')
-  const phrase = useMemo(() => words.join(' '), [words])
+  const phrase = useMemo(() => contextualWords.join(' '), [contextualWords])
   const chars = useMemo(() => phrase.split(''), [phrase])
   const [visibleCount, setVisibleCount] = useState(0)
   const containerRef = useRef<HTMLDivElement | null>(null)
