@@ -42,7 +42,13 @@ export default function DashboardPage() {
       <header className="bg-gradient-to-r from-primary/5 to-primary/10 p-6 rounded-2xl border border-primary/20">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div className="space-y-2">
-            <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+            <h1 className="text-2xl md:text-3xl font-bold text-orange-600" style={{
+              textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
+              fontWeight: 900,
+              textTransform: 'uppercase',
+              letterSpacing: '-0.5px',
+              lineHeight: 1.1
+            }}>
               Good {getTimeOfDay()}, {getBusinessName()} 👋
             </h1>
             <p className="text-sm text-muted-foreground font-medium">
