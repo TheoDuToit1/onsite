@@ -95,6 +95,12 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         {/* Overlay content */}
         <div className="relative z-10 w-full flex flex-col justify-between p-6 lg:p-10">
           <div className="text-2xl lg:text-3xl font-bold">OnSite</div>
+          {/* Marketing copy (large screens) */}
+          <div className="hidden lg:block mt-2 lg:ml-12 max-w-sm text-white/80">
+            <p className="text-sm leading-relaxed">
+              Software for SA trades to quote faster, schedule better, and get paid on time.
+            </p>
+          </div>
           <div ref={containerRef}
                className="flex flex-col items-center gap-6 outline-none"
                tabIndex={0}

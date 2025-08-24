@@ -52,9 +52,11 @@ export default function SignupPage() {
   return (
     <AuthLayout>
       <div className="space-y-6 sm:space-y-8">
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col space-y-1">
           <BackButton className="self-start" onClick={() => navigate('/welcome')} />
-          <TypeTagline />
+          <div className="min-h-6 sm:min-h-8">
+            <TypeTagline />
+          </div>
         </div>
         
         <div className="space-y-1">
