@@ -3,7 +3,7 @@ import './notFound.css'
 
 export default function NotFoundPage() {
   return (
-    <>
+    <div className="notfound-page">
       <header className="top-header"></header>
 
       {/* Dust particles */}
@@ -41,6 +41,6 @@ export default function NotFoundPage() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   )
 }
