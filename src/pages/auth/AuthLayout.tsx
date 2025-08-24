@@ -19,6 +19,76 @@ const SLIDE_META = [
   { title: 'Pest control', subtitle: 'Route planning and reminders built-in', tint: 'rgba(99,102,241,0.18)' },
 ]
 
+// Per-slide fun copy (heading, paragraph, bullets, footer)
+const COPY = [
+  {
+    heading: 'Shine on, Cleaning Pros ✨',
+    para: 'Schedule crews, send quotes, and invoice on the spot. Less admin, more sparkle.',
+    bullets: [
+      'Auto-reminders keep recurring jobs flowing.',
+      'Photo notes for spotless before/after proof.',
+      'Tap-to-invoice when the job’s done.'
+    ],
+    footA: 'Your office. On the go. Always with you.',
+    footB: 'Ready to clean up your admin?'
+  },
+  {
+    heading: 'Power up, Electricians ⚡',
+    para: 'From quick quotes to safety certs—keep every circuit of your business connected.',
+    bullets: [
+      'Instant quotes with options and parts.',
+      'Job timelines and client approvals.',
+      'Get paid faster with smart invoices.'
+    ],
+    footA: 'Keep the work flowing.',
+    footB: 'Switch to simple.'
+  },
+  {
+    heading: 'Flow better, Plumbers 💧',
+    para: 'Book jobs, route teams, and send tidy invoices—without leaking time.',
+    bullets: [
+      'Smart scheduling and route planning.',
+      'Checklist templates for repeat jobs.',
+      'One tap from quote to invoice.'
+    ],
+    footA: 'No blockages here.',
+    footB: 'Pipe your business through OnSite.'
+  },
+  {
+    heading: 'Reach higher, Roofers 🏠',
+    para: 'Track every job from inspection to invoice—with photos that win trust.',
+    bullets: [
+      'Progress photos and signed approvals.',
+      'Crew scheduling that just works.',
+      'Clear quotes. Faster payments.'
+    ],
+    footA: 'Own the skyline.',
+    footB: 'Build a stronger workflow.'
+  },
+  {
+    heading: 'Dialed in, Mechanics 🔧',
+    para: 'From diagnostics to delivery—keep repairs moving and customers happy.',
+    bullets: [
+      'Part lists and labour in one place.',
+      'Status updates clients understand.',
+      'Tap, send, paid. Done.'
+    ],
+    footA: 'Fewer stalls. More wins.',
+    footB: 'Tune your operations.'
+  },
+  {
+    heading: 'On target, Pest Control 🐜',
+    para: 'Route smarter, log treatments, and stay compliant—without the paper chase.',
+    bullets: [
+      'Recurring schedules with reminders.',
+      'Site notes and treatment history.',
+      'Invoices and follow-ups in seconds.'
+    ],
+    footA: 'Precision beats pests.',
+    footB: 'Take aim with OnSite.'
+  }
+]
+
 const AUTO_MS = 7000
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
@@ -96,10 +166,75 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div className="relative z-10 w-full flex flex-col justify-between p-6 lg:p-10">
           <div className="text-2xl lg:text-3xl font-bold">OnSite</div>
           {/* Marketing copy (large screens) */}
-          <div className="hidden lg:block mt-2 lg:ml-12 max-w-sm text-white/80">
-            <p className="text-sm leading-relaxed">
-              Software for SA trades to quote faster, schedule better, and get paid on time.
-            </p>
+          <div className="hidden lg:block lg:ml-14 max-w-md">
+            <motion.div
+              key={current}
+              initial={{ opacity: 0, y: 14, scale: 0.99 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.5, ease: [0.22,1,0.36,1] }}
+              className="relative bg-white/10 backdrop-blur-sm rounded-xl border border-white/15 shadow-sm px-5 py-5 text-white/90 overflow-hidden"
+            >
+              {/* Accent glow */}
+              <motion.div
+                aria-hidden
+                initial={{ opacity: 0.25, scale: 0.9 }}
+                animate={{ opacity: 0.4, scale: 1 }}
+                transition={{ duration: 1.2 }}
+                className="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full bg-brand-orange/20 blur-2xl"
+              />
+
+              {/* Small badge */}
+              <div className="absolute right-4 top-4 hidden xl:flex items-center gap-2 rounded-full bg-black/30 px-3 py-1 text-xs border border-white/10">
+                <span className="inline-block h-2 w-2 rounded-full bg-brand-orange animate-pulse" />
+                <span className="text-white/90">Mobile‑first</span>
+              </div>
+
+              {/* Heading with subtle gradient */}
+              <h2 className="text-xl font-semibold tracking-tight">
+                <span className="bg-gradient-to-r from-white via-white to-brand-orange bg-clip-text text-transparent">
+                  {COPY[current].heading}
+                </span>
+              </h2>
+
+              <p className="mt-2 text-sm leading-relaxed text-white/85">{COPY[current].para}</p>
+
+              {/* Staggered bullets */}
+              <motion.ul
+                initial="hidden"
+                animate="show"
+                variants={{ hidden: { opacity: 1 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } }}
+                className="mt-3 space-y-1.5 text-sm"
+              >
+                {COPY[current].bullets.map((t, i) => (
+                  <motion.li
+                    key={i}
+                    variants={{ hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } }}
+                    transition={{ duration: 0.35, ease: 'easeOut' }}
+                    className="flex gap-2"
+                  >
+                    <span className="text-brand-orange">✓</span>
+                    <span>{t}</span>
+                  </motion.li>
+                ))}
+              </motion.ul>
+
+              <motion.p
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25, duration: 0.35 }}
+                className="mt-3 text-sm text-white/90"
+              >
+                {COPY[current].footA}
+              </motion.p>
+              <motion.p
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35, duration: 0.35 }}
+                className="mt-1.5 text-sm text-white/80"
+              >
+                {COPY[current].footB}
+              </motion.p>
+            </motion.div>
           </div>
           <div ref={containerRef}
                className="flex flex-col items-center gap-6 outline-none"
@@ -118,7 +253,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           </div>
 
           {/* Arrows */}
-          <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-3">
+          <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-5">
             <button
               type="button"
               aria-label="Previous slide"
