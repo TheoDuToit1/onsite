@@ -31,10 +31,10 @@ const getPageMessages = (pathname: string): string[] => {
     
     case '/invoices':
     case '/reports':
-      return ['Manage money with confidence. We handle the support, you grow the business.'];
+      return ['Track money. Get paid faster.'];
     
     case '/jobs':
-      return ['Your skills create opportunities. We\'ll help you find and win them.'];
+      return ['Find and win jobs.'];
     
     case '/inbox':
       return ['Conversations that move you forward. We keep everything organized and supported.'];
@@ -46,13 +46,13 @@ const getPageMessages = (pathname: string): string[] => {
       return ['Your schedule. Your time. We help you make the most of both.'];
     
     case '/clients':
-      return ['Build lasting relationships. We help you serve them better.'];
+      return ['Know your clients. Serve better.'];
     
     case '/settings':
       return ['Your business. Your way.'];
     
     case '/marketing':
-      return ['Get discovered and win more work. Campaigns, reviews, and referrals in one place.'];
+      return ['Get discovered. Win work.'];
     
     default:
       // For landing page and other pages, keep original short messages
