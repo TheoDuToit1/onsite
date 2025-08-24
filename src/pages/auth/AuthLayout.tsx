@@ -189,6 +189,16 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
                 <span className="text-white/90">Mobile‑first</span>
               </div>
 
+              {/* Service name badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="inline-flex items-center gap-2 rounded-full bg-black/30 px-3 py-1 text-xs border border-white/10"
+              >
+                <span className="text-white/90">{SLIDE_META[current].title}</span>
+              </motion.div>
+
               {/* Heading with subtle gradient */}
               <h2 className="text-xl font-semibold tracking-tight">
                 <span className="bg-gradient-to-r from-white via-white to-brand-orange bg-clip-text text-transparent">
