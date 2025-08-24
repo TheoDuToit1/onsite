@@ -23,8 +23,9 @@ const getBusinessName = () => {
 const getPageMessages = (pathname: string): string[] => {
   switch (pathname) {
     case '/login':
+      return ['Welcome back.'];
     case '/signup':
-      return ['Start your journey. Bring your expertise. We\'ll back you every step.'];
+      return ['Get started.'];
     
     case '/dashboard':
       return ['Your work. Your progress. Supported with the tools to succeed.'];

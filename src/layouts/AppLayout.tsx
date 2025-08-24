@@ -104,25 +104,25 @@ export default function AppLayout() {
                 </CommandEmpty>
 
                 <CommandGroup heading="QUICK ACTIONS">
-                  <CommandItem value="new job create" onSelect={() => { navigate('/jobs/new'); setOpenCmd(false) }} className="px-3 py-2.5 rounded-xl hover:bg-orange-100/60 aria-selected:bg-orange-200/80 cursor-pointer">
+                  <CommandItem value="create job new" onSelect={() => { navigate('/jobs/new'); setOpenCmd(false) }} className="px-3 py-2.5 rounded-xl hover:bg-orange-100/60 aria-selected:bg-orange-200/80 cursor-pointer">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center">
                         <Briefcase className="h-4 w-4 text-white" />
                       </div>
                       <div className="flex-1">
-                        <div className="font-medium text-neutral-900">New Job</div>
+                        <div className="font-medium text-neutral-900">Create Job</div>
                         <div className="text-xs text-neutral-600">Start a new project</div>
                       </div>
                       <div className="text-xs text-neutral-400">⌘J</div>
                     </div>
                   </CommandItem>
-                  <CommandItem value="new invoice create" onSelect={() => { navigate('/invoices/new'); setOpenCmd(false) }} className="px-3 py-2.5 rounded-xl hover:bg-orange-100/60 aria-selected:bg-orange-200/80 cursor-pointer">
+                  <CommandItem value="create invoice new" onSelect={() => { navigate('/invoices/new'); setOpenCmd(false) }} className="px-3 py-2.5 rounded-xl hover:bg-orange-100/60 aria-selected:bg-orange-200/80 cursor-pointer">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center">
                         <FileText className="h-4 w-4 text-white" />
                       </div>
                       <div className="flex-1">
-                        <div className="font-medium text-neutral-900">New Invoice</div>
+                        <div className="font-medium text-neutral-900">Create Invoice</div>
                         <div className="text-xs text-neutral-600">Create and send an invoice</div>
                       </div>
                       <div className="text-xs text-neutral-400">⌘I</div>

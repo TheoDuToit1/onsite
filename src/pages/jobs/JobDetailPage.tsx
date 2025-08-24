@@ -38,7 +38,7 @@ export default function JobDetailPage() {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <div className="text-xs text-neutral-700">Jobs / <span className="text-neutral-900 font-medium">J-{id}</span></div>
           <div className="mt-1 flex items-center gap-3">
@@ -62,10 +62,10 @@ export default function JobDetailPage() {
           </div>
           <div className="mt-1 text-xs text-neutral-700">Today • 9:00–11:00 • Assigned to Alex</div>
         </div>
-        <div className="flex items-center gap-2">
-          <Button asChild variant="secondary"><Link to={`/clients/${client.id}`}>Open client</Link></Button>
-          <Button asChild><Link to="/quotes/new">Create quote</Link></Button>
-          <Button asChild><Link to="/invoices/new">Create invoice</Link></Button>
+        <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+          <Button asChild variant="secondary" className="w-full sm:w-auto"><Link to={`/clients/${client.id}`}>Open client</Link></Button>
+          <Button asChild className="w-full sm:w-auto"><Link to="/quotes/new">Create quote</Link></Button>
+          <Button asChild className="w-full sm:w-auto"><Link to="/invoices/new">Create invoice</Link></Button>
         </div>
       </div>
 
@@ -94,9 +94,9 @@ export default function JobDetailPage() {
                   </label>
                 ))}
               </div>
-              <div className="mt-3 flex items-center gap-2">
-                <Input placeholder="Add item" value={newItem} onChange={(e) => setNewItem(e.target.value)} />
-                <Button size="sm" onClick={addItem}>Add</Button>
+              <div className="mt-3 flex flex-col sm:flex-row sm:items-center gap-2">
+                <Input className="w-full" placeholder="Add item" value={newItem} onChange={(e) => setNewItem(e.target.value)} />
+                <Button className="w-full sm:w-auto" size="sm" onClick={addItem}>Add</Button>
               </div>
             </CardContent>
           </Card>
@@ -123,10 +123,10 @@ export default function JobDetailPage() {
               <div className="text-sm text-neutral-700">{client.address}</div>
               <div className="text-sm text-neutral-700">{client.phone}</div>
               <div className="text-sm text-neutral-700">{client.email}</div>
-              <div className="pt-2 flex gap-2">
-                <Button asChild variant="secondary"><a href={`tel:${client.phone.replace(/[^\d+]/g,'')}`}>Call</a></Button>
-                <Button asChild variant="secondary"><Link to="/inbox">Message</Link></Button>
-                <Button asChild><Link to={`/clients/${client.id}`}>Open client</Link></Button>
+              <div className="pt-2 flex flex-wrap gap-2">
+                <Button asChild variant="secondary" className="w-full sm:w-auto"><a href={`tel:${client.phone.replace(/[^\d+]/g,'')}`}>Call</a></Button>
+                <Button asChild variant="secondary" className="w-full sm:w-auto"><Link to="/inbox">Message</Link></Button>
+                <Button asChild className="w-full sm:w-auto"><Link to={`/clients/${client.id}`}>Open client</Link></Button>
               </div>
             </CardContent>
           </Card>

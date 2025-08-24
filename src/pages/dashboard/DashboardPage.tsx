@@ -110,7 +110,7 @@ export default function DashboardPage() {
               intro="Your command center. Track today, act quickly, and understand your money at a glance."
               bullets={[
                 'Quick stats: health indicators for your business',
-                'Quick actions: jump to common tasks (new job, quote, client)',
+                'Quick actions: jump to common tasks (create job, quote, client)',
                 "Status overview: helpful context like load shedding and holidays",
                 'Your Money: snapshot of revenue, overdue, VAT',
                 'Getting Started: guided checklist to set up core items',
@@ -224,7 +224,7 @@ export default function DashboardPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
             { 
-              label: 'New Job', 
+              label: 'Create Job', 
               icon: <Wrench className="w-5 h-5" />,
               color: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
               href: '/jobs/new'

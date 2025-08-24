@@ -63,101 +63,105 @@ export default function SignupPage() {
         </div>
         
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-5">
-          <div>
-            <Label className="text-sm sm:text-base">Business name</Label>
-            <Input 
-              className="mt-1 h-11 sm:h-12 text-base" 
-              placeholder="e.g. Mzansi Electrical Services" 
-              {...register('business')} 
-            />
-            <p className="text-xs text-neutral-500 mt-1">Your business name as it appears to clients</p>
-            {errors.business && <p className="text-danger text-xs sm:text-sm mt-1">{errors.business.message}</p>}
-          </div>
-          
-          <div>
-            <Label className="text-sm sm:text-base">Industry</Label>
-            <input type="hidden" {...register('niche')} />
-            <p className="text-xs sm:text-sm text-neutral-700 mt-1">
-              Pick your trade — you can change this later in Settings.
-            </p>
-            <div className="mt-2">
-              <Select 
-                value={watch('niche') || undefined} 
-                onValueChange={(val)=> setValue('niche', val, { shouldValidate: true, shouldDirty: true })}
-              >
-                <SelectTrigger className="h-11 sm:h-12 text-base">
-                  <SelectValue placeholder="Select your trade" />
-                </SelectTrigger>
-                <SelectContent className="max-h-[300px] overflow-y-auto">
-                  <div className="p-2">
-                    <Input
-                      placeholder="Search trade..."
-                      value={nicheQuery}
-                      onChange={(e)=> setNicheQuery(e.target.value)}
-                      onKeyDown={(e)=> e.stopPropagation()}
-                      className="h-9 text-sm sm:text-base"
-                    />
-                  </div>
-                  <SelectGroup>
-                    <SelectLabel className="text-xs sm:text-sm">
-                      {nicheQuery ? 'Results' : 'Popular trades'}
-                    </SelectLabel>
-                    {filteredTrades.length === 0 ? (
-                      <div className="px-2 py-2 text-sm text-neutral-600">No results</div>
-                    ) : (
-                      filteredTrades.map((trade) => (
-                        <SelectItem 
-                          key={trade} 
-                          value={trade}
-                          className="text-sm sm:text-base"
-                        >
-                          {trade}
-                        </SelectItem>
-                      ))
-                    )}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              
-              <div className="mt-2 flex items-center gap-2 flex-wrap">
-                <span className="text-xs sm:text-sm text-neutral-700">Selected:</span>
-                <span className="inline-flex items-center rounded-full bg-brand-navy text-white px-3 py-1 text-xs sm:text-sm">
-                  {watch('niche') || 'None'}
-                </span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <Label className="text-sm sm:text-base">Business name</Label>
+              <Input 
+                className="mt-1 h-11 sm:h-12 text-base" 
+                placeholder="e.g. Mzansi Electrical Services" 
+                {...register('business')} 
+              />
+              <p className="text-xs text-neutral-500 mt-1">Your business name as it appears to clients</p>
+              {errors.business && <p className="text-danger text-xs sm:text-sm mt-1">{errors.business.message}</p>}
+            </div>
+            
+            <div>
+              <Label className="text-sm sm:text-base">Industry</Label>
+              <input type="hidden" {...register('niche')} />
+              <p className="text-xs sm:text-sm text-neutral-700 mt-1">
+                Pick your trade — you can change this later in Settings.
+              </p>
+              <div className="mt-2">
+                <Select 
+                  value={watch('niche') || undefined} 
+                  onValueChange={(val)=> setValue('niche', val, { shouldValidate: true, shouldDirty: true })}
+                >
+                  <SelectTrigger className="h-11 sm:h-12 text-base">
+                    <SelectValue placeholder="Select your trade" />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-[300px] overflow-y-auto">
+                    <div className="p-2">
+                      <Input
+                        placeholder="Search trade..."
+                        value={nicheQuery}
+                        onChange={(e)=> setNicheQuery(e.target.value)}
+                        onKeyDown={(e)=> e.stopPropagation()}
+                        className="h-9 text-sm sm:text-base"
+                      />
+                    </div>
+                    <SelectGroup>
+                      <SelectLabel className="text-xs sm:text-sm">
+                        {nicheQuery ? 'Results' : 'Popular trades'}
+                      </SelectLabel>
+                      {filteredTrades.length === 0 ? (
+                        <div className="px-2 py-2 text-sm text-neutral-600">No results</div>
+                      ) : (
+                        filteredTrades.map((trade) => (
+                          <SelectItem 
+                            key={trade} 
+                            value={trade}
+                            className="text-sm sm:text-base"
+                          >
+                            {trade}
+                          </SelectItem>
+                        ))
+                      )}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                
+                <div className="mt-2 flex items-center gap-2 flex-wrap">
+                  <span className="text-xs sm:text-sm text-neutral-700">Selected:</span>
+                  <span className="inline-flex items-center rounded-full bg-brand-navy text-white px-3 py-1 text-xs sm:text-sm">
+                    {watch('niche') || 'None'}
+                  </span>
+                </div>
+                
+                {errors.niche && (
+                  <p className="text-danger text-xs sm:text-sm mt-1">
+                    {errors.niche.message}
+                  </p>
+                )}
               </div>
-              
-              {errors.niche && (
-                <p className="text-danger text-xs sm:text-sm mt-1">
-                  {errors.niche.message}
-                </p>
-              )}
             </div>
           </div>
           
-          <div>
-            <Label className="text-sm sm:text-base">Email</Label>
-            <Input 
-              type="email" 
-              className="mt-1 h-11 sm:h-12 text-base" 
-              placeholder="your@business.co.za" 
-              {...register('email')} 
-            />
-            <p className="text-xs text-neutral-500 mt-1">We'll send important updates to this address</p>
-            {errors.email && <p className="text-danger text-xs sm:text-sm mt-1">{errors.email.message}</p>}
-          </div>
-          
-          <div>
-            <Label className="text-sm sm:text-base">Password</Label>
-            <Input 
-              type="password" 
-              className="mt-1 h-11 sm:h-12 text-base" 
-              placeholder="Strong password" 
-              {...register('password')} 
-            />
-            <p className="text-xs text-neutral-600 mt-1">
-              Use at least 8 characters with numbers & symbols
-            </p>
-            {errors.password && <p className="text-danger text-xs sm:text-sm mt-1">{errors.password.message}</p>}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <Label className="text-sm sm:text-base">Email</Label>
+              <Input 
+                type="email" 
+                className="mt-1 h-11 sm:h-12 text-base" 
+                placeholder="your@business.co.za" 
+                {...register('email')} 
+              />
+              <p className="text-xs text-neutral-500 mt-1">We'll send important updates to this address</p>
+              {errors.email && <p className="text-danger text-xs sm:text-sm mt-1">{errors.email.message}</p>}
+            </div>
+            
+            <div>
+              <Label className="text-sm sm:text-base">Password</Label>
+              <Input 
+                type="password" 
+                className="mt-1 h-11 sm:h-12 text-base" 
+                placeholder="Strong password" 
+                {...register('password')} 
+              />
+              <p className="text-xs text-neutral-600 mt-1">
+                Use at least 8 characters with numbers & symbols
+              </p>
+              {errors.password && <p className="text-danger text-xs sm:text-sm mt-1">{errors.password.message}</p>}
+            </div>
           </div>
           
           <Button 

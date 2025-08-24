@@ -24,7 +24,7 @@ export default function ClientDetailPage() {
         <h1 className="text-xl font-semibold">{name}</h1>
         <div className="flex flex-wrap gap-2">
           <Button asChild variant="secondary"><Link to={`/clients`}>Back to clients</Link></Button>
-          <Button asChild variant="secondary"><Link to={`/jobs/new`}>New job</Link></Button>
+          <Button asChild variant="secondary"><Link to={`/jobs/new`}>Create Job</Link></Button>
           <Button asChild><Link to={`/quotes/new`}>New quote</Link></Button>
         </div>
       </div>
