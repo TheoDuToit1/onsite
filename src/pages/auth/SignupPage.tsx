@@ -51,33 +51,36 @@ export default function SignupPage() {
 
   return (
     <AuthLayout>
-      <div className="space-y-5 sm:space-y-6">
+      <div className="space-y-6 sm:space-y-8">
         <div className="flex flex-col space-y-2">
           <BackButton className="self-start" onClick={() => navigate('/welcome')} />
           <TypeTagline />
         </div>
         
-        <div className="space-y-2 sm:space-y-3">
-          <h1 className="text-xl sm:text-2xl font-semibold">Register your business</h1>
+        <div className="space-y-1">
+          <h1 className="text-2xl sm:text-3xl font-semibold leading-tight">Register your business</h1>
           <p className="text-sm sm:text-base text-neutral-700">Join thousands of South African businesses growing with OnSite</p>
         </div>
         
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-5">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {/* Row: Business + Industry */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <Label className="text-sm sm:text-base">Business name</Label>
+              <Label htmlFor="business" className="text-sm sm:text-base">Business name</Label>
               <Input 
+                id="business"
+                aria-describedby="business_help business_err"
                 className="mt-1 h-11 sm:h-12 text-base" 
                 placeholder="e.g. Mzansi Electrical Services" 
                 {...register('business')} 
               />
-              <p className="text-xs text-neutral-500 mt-1">Your business name as it appears to clients</p>
-              {errors.business && <p className="text-danger text-xs sm:text-sm mt-1">{errors.business.message}</p>}
+              <p id="business_help" className="text-xs text-neutral-500 mt-1">Your business name as it appears to clients</p>
+              {errors.business && <p id="business_err" className="text-danger text-xs sm:text-sm mt-1">{errors.business.message}</p>}
             </div>
-            
+
             <div>
-              <Label className="text-sm sm:text-base">Industry</Label>
-              <input type="hidden" {...register('niche')} />
+              <Label htmlFor="niche" className="text-sm sm:text-base">Industry</Label>
+              <input id="niche" type="hidden" {...register('niche')} />
               <p className="text-xs sm:text-sm text-neutral-700 mt-1">
                 Pick your trade — you can change this later in Settings.
               </p>
@@ -89,8 +92,8 @@ export default function SignupPage() {
                   <SelectTrigger className="h-11 sm:h-12 text-base">
                     <SelectValue placeholder="Select your trade" />
                   </SelectTrigger>
-                  <SelectContent className="max-h-[300px] overflow-y-auto">
-                    <div className="p-2">
+                  <SelectContent className="max-h-[320px] overflow-y-auto">
+                    <div className="sticky top-0 z-10 bg-white p-2 border-b">
                       <Input
                         placeholder="Search trade..."
                         value={nicheQuery}
@@ -100,7 +103,7 @@ export default function SignupPage() {
                       />
                     </div>
                     <SelectGroup>
-                      <SelectLabel className="text-xs sm:text-sm">
+                      <SelectLabel className="text-xs sm:text-sm px-2 py-1">
                         {nicheQuery ? 'Results' : 'Popular trades'}
                       </SelectLabel>
                       {filteredTrades.length === 0 ? (
@@ -120,12 +123,7 @@ export default function SignupPage() {
                   </SelectContent>
                 </Select>
                 
-                <div className="mt-2 flex items-center gap-2 flex-wrap">
-                  <span className="text-xs sm:text-sm text-neutral-700">Selected:</span>
-                  <span className="inline-flex items-center rounded-full bg-brand-navy text-white px-3 py-1 text-xs sm:text-sm">
-                    {watch('niche') || 'None'}
-                  </span>
-                </div>
+                {/* Removed inline selected chip to reduce vertical spacing */}
                 
                 {errors.niche && (
                   <p className="text-danger text-xs sm:text-sm mt-1">
@@ -135,35 +133,47 @@ export default function SignupPage() {
               </div>
             </div>
           </div>
+
+          {/* Divider */}
+          <div className="h-px bg-neutral-200" />
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {/* Row: Email + Password */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <Label className="text-sm sm:text-base">Email</Label>
+              <Label htmlFor="email" className="text-sm sm:text-base">Email</Label>
               <Input 
+                id="email"
                 type="email" 
+                aria-describedby="email_help email_err"
                 className="mt-1 h-11 sm:h-12 text-base" 
                 placeholder="your@business.co.za" 
                 {...register('email')} 
               />
-              <p className="text-xs text-neutral-500 mt-1">We'll send important updates to this address</p>
-              {errors.email && <p className="text-danger text-xs sm:text-sm mt-1">{errors.email.message}</p>}
+              <p id="email_help" className="text-xs text-neutral-500 mt-1">We'll send important updates to this address</p>
+              {errors.email && <p id="email_err" className="text-danger text-xs sm:text-sm mt-1">{errors.email.message}</p>}
             </div>
             
             <div>
-              <Label className="text-sm sm:text-base">Password</Label>
+              <Label htmlFor="password" className="text-sm sm:text-base">Password</Label>
               <Input 
+                id="password"
                 type="password" 
+                aria-describedby="password_help password_err"
                 className="mt-1 h-11 sm:h-12 text-base" 
                 placeholder="Strong password" 
                 {...register('password')} 
               />
-              <p className="text-xs text-neutral-600 mt-1">
+              <p id="password_help" className="text-xs text-neutral-600 mt-1">
                 Use at least 8 characters with numbers & symbols
               </p>
-              {errors.password && <p className="text-danger text-xs sm:text-sm mt-1">{errors.password.message}</p>}
+              {errors.password && <p id="password_err" className="text-danger text-xs sm:text-sm mt-1">{errors.password.message}</p>}
             </div>
           </div>
-          
+          {/* Selected trade summary (relocated) */}
+          <div className="flex justify-end -mt-2 text-xs sm:text-sm text-neutral-600">
+            Trade: <span className="ml-1 font-medium">{watch('niche') || 'None'}</span>
+          </div>
+
           <Button 
             type="submit" 
             disabled={isSubmitting} 
