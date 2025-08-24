@@ -1,13 +1,46 @@
 import { Link } from 'react-router-dom'
+import './notFound.css'
 
 export default function NotFoundPage() {
   return (
-    <div className="min-h-[60vh] flex items-center justify-center">
-      <div className="text-center space-y-3">
-        <h1 className="text-3xl font-bold">Page not found</h1>
-        <p className="text-neutral-700">The page you are looking for doesn’t exist.</p>
-        <Link to="/dashboard" className="inline-block px-4 py-2 rounded-xl bg-brand-orange text-white">Go Home</Link>
+    <>
+      <header className="top-header"></header>
+
+      {/* Dust particles */}
+      <div>
+        <div className="starsec"></div>
+        <div className="starthird"></div>
+        <div className="starfourth"></div>
+        <div className="starfifth"></div>
       </div>
-    </div>
+
+      {/* Lamp */}
+      <div className="lamp__wrap">
+        <div className="lamp">
+          <div className="cable"></div>
+          <div className="cover"></div>
+          <div className="in-cover">
+            <div className="bulb"></div>
+          </div>
+          <div className="light"></div>
+        </div>
+      </div>
+
+      {/* Error content */}
+      <section className="error">
+        <div className="error__content">
+          <div className="error__message message">
+            <h1 className="message__title">404</h1>
+            <p className="message__text">
+              We're sorry, the page you were looking for isn't found here. The link you followed may either be
+              broken or no longer exists. Please try again, or take a look at our.
+            </p>
+          </div>
+          <div className="error__nav e-nav">
+            <Link to="/" className="e-nav__link"></Link>
+          </div>
+        </div>
+      </section>
+    </>
   )
 }
