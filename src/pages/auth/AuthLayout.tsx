@@ -166,7 +166,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div className="relative z-10 w-full flex flex-col justify-between p-6 lg:p-10">
           <div className="text-2xl lg:text-3xl font-bold">OnSite</div>
           {/* Marketing copy (large screens) */}
-          <div className="hidden lg:block lg:ml-14 max-w-md">
+          <div className="hidden lg:block lg:self-start lg:ml-24 max-w-md">
             <motion.div
               key={current}
               initial={{ opacity: 0, y: 14, scale: 0.99 }}
@@ -308,7 +308,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         initial={{ opacity: 0, y: 12 }} 
         animate={{ opacity: 1, y: 0 }} 
         transition={{ duration: 0.28 }} 
-        className="flex items-center justify-center p-4 sm:p-6 w-full"
+        className="flex items-center justify-center md:justify-end p-4 sm:p-6 md:pr-6 lg:pr-10 w-full"
       >
         <div className="w-full max-w-lg md:max-w-xl lg:max-w-2xl bg-white shadow-sm sm:shadow-soft rounded-2xl p-5 sm:p-6 md:p-8">
           {children}
