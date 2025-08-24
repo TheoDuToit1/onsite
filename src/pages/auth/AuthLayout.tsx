@@ -2,12 +2,24 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
 const SLIDES = [
-  '/Slide-1.png',
-  '/Slide-2.png',
-  '/Slide-3.png',
-  '/Slide-4.png',
-  '/Slide-5.png',
+  '/Cleaners.jpg',
+  '/Electricians.jpg',
+  '/Plumbers.jpg',
+  '/Roofers.jpg',
+  '/Mechanics.jpg',
+  '/Pest-control.jpg',
 ]
+
+const SLIDE_META = [
+  { title: 'Cleaning pros', subtitle: 'Schedule, assign, and get paid faster', tint: 'rgba(59,130,246,0.20)' },
+  { title: 'Electricians', subtitle: 'From quotes to invoices, all in one place', tint: 'rgba(245,158,11,0.20)' },
+  { title: 'Plumbers', subtitle: 'Win jobs with instant quotes', tint: 'rgba(14,165,233,0.20)' },
+  { title: 'Roofers', subtitle: 'Track jobs and timelines with ease', tint: 'rgba(244,63,94,0.18)' },
+  { title: 'Mechanics', subtitle: 'Repeatable workflows, happy customers', tint: 'rgba(34,197,94,0.18)' },
+  { title: 'Pest control', subtitle: 'Route planning and reminders built-in', tint: 'rgba(99,102,241,0.18)' },
+]
+
+const AUTO_MS = 7000
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   const [current, setCurrent] = useState(0)
@@ -22,7 +34,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
     const id = setInterval(() => {
       setDirection(1)
       setCurrent((c) => (c + 1) % SLIDES.length)
-    }, 4000)
+    }, AUTO_MS)
     return () => clearInterval(id)
   }, [paused, prefersReducedMotion])
 
@@ -41,153 +53,103 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
     prev.src = SLIDES[(current - 1 + SLIDES.length) % SLIDES.length]
   }, [current])
 
-  // Motion variants for sliding
-  const variants = {
-    enter: (dir: 1 | -1) => ({ opacity: 0, x: dir > 0 ? 40 : -40, rotateZ: dir > 0 ? 0.6 : -0.6 }),
-    center: { opacity: 1, x: 0, rotateZ: 0 },
-    exit: (dir: 1 | -1) => ({ opacity: 0, x: dir > 0 ? -40 : 40, rotateZ: dir > 0 ? -0.6 : 0.6 }),
-  }
+  // Preload all images after mount (idle)
+  useEffect(() => {
+    const preload = () => SLIDES.forEach((src) => { const img = new Image(); img.decoding = 'async'; img.src = src })
+    // @ts-ignore
+    if (window.requestIdleCallback) (window as any).requestIdleCallback(preload)
+    else setTimeout(preload, 500)
+  }, [])
+
+  // (variants removed; using background hero transition instead)
 
   const paginate = (dir: 1 | -1) => {
     setDirection(dir)
     setCurrent((c) => (c + dir + SLIDES.length) % SLIDES.length)
   }
-  const prevIndex = (current - 1 + SLIDES.length) % SLIDES.length
-  const nextIndex = (current + 1) % SLIDES.length
+  // (prev/next indices removed; not needed for background hero)
   return (
     <div className="min-h-screen grid md:grid-cols-2 bg-gray-50">
       {/* Brand panel - Hidden on mobile, shown on md and up */}
-      <div className="hidden md:flex bg-brand-navy text-white p-6 lg:p-10 flex-col justify-between">
-        <div>
+      <div className="hidden md:flex relative overflow-hidden bg-brand-navy text-white">
+        {/* Background slider (full-bleed) */}
+        <div className="absolute inset-0">
+          <AnimatePresence initial={false} custom={direction}>
+            <motion.img
+              key={SLIDES[current]}
+              src={SLIDES[current]}
+              alt="Job showcase"
+              custom={direction}
+              initial={{ opacity: 0, x: direction > 0 ? '14%' : '-14%', scale: 1.06 }}
+              animate={{ opacity: 1, x: '0%', scale: 1.0 }}
+              exit={{ opacity: 0, x: direction > 0 ? '-14%' : '14%', scale: 1.04 }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-0 w-full h-full object-cover"
+              draggable={false}
+            />
+          </AnimatePresence>
+          {/* Match landing overlay: gradient to top */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
+        </div>
+
+        {/* Overlay content */}
+        <div className="relative z-10 w-full flex flex-col justify-between p-6 lg:p-10">
           <div className="text-2xl lg:text-3xl font-bold">OnSite</div>
-          <div className="mt-6 space-y-6">
-            <h2 className="text-xl lg:text-2xl font-semibold text-center">OnSite in action</h2>
-            <div
-              className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5"
-              role="region"
-              aria-label="Product screenshots carousel"
+          <div ref={containerRef}
+               className="flex flex-col items-center gap-6 outline-none"
+               tabIndex={0}
+               onMouseEnter={() => setPaused(true)}
+               onMouseLeave={() => setPaused(false)}
+               onTouchStart={() => setPaused(true)}
+               onTouchEnd={() => setPaused(false)}
+               onFocus={() => setPaused(true)}
+               onBlur={() => setPaused(false)}
+               onKeyDown={(e) => {
+                 if (e.key === 'ArrowLeft') paginate(-1)
+                 if (e.key === 'ArrowRight') paginate(1)
+               }}>
+            {/* Intentionally no center heading to prevent overlap with caption */}
+          </div>
+
+          {/* Arrows */}
+          <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-3">
+            <button
+              type="button"
+              aria-label="Previous slide"
+              onClick={() => paginate(-1)}
+              className="h-9 w-9 rounded-full bg-brand-orange text-black hover:opacity-90 flex items-center justify-center transition"
             >
-              <div
-                ref={containerRef}
-                className="relative w-full max-w-2xl mx-auto h-80 lg:h-[28rem] outline-none"
-                style={{ perspective: '1200px' }}
-                tabIndex={0}
-                onMouseEnter={() => setPaused(true)}
-                onMouseLeave={() => setPaused(false)}
-                onTouchStart={() => setPaused(true)}
-                onTouchEnd={() => setPaused(false)}
-                onFocus={() => setPaused(true)}
-                onBlur={() => setPaused(false)}
-                onKeyDown={(e) => {
-                  if (e.key === 'ArrowLeft') paginate(-1)
-                  if (e.key === 'ArrowRight') paginate(1)
-                }}
-              >
-                {/* Left (previous) preview */}
-                <motion.img
-                  key={`prev-${prevIndex}`}
-                  src={SLIDES[prevIndex]}
-                  alt="Previous"
-                  initial={{ opacity: 0, x: -40, rotateY: 25, rotateZ: -2, scale: 0.9 }}
-                  animate={{ opacity: 0.6, x: -24, rotateY: 18, rotateZ: -2, scale: 0.92 }}
-                  exit={{ opacity: 0, x: -40, rotateY: 25, rotateZ: -2, scale: 0.9 }}
-                  transition={{ duration: 0.4 }}
-                  className="absolute inset-y-6 left-0 right-0 mx-auto w-[82%] h-[88%] object-contain select-none pointer-events-none"
-                  style={{ zIndex: 10, filter: 'drop-shadow(0 6px 16px rgba(0,0,0,0.35))' }}
-                />
-
-                {/* Right (next) preview */}
-                <motion.img
-                  key={`next-${nextIndex}`}
-                  src={SLIDES[nextIndex]}
-                  alt="Next"
-                  initial={{ opacity: 0, x: 40, rotateY: -25, rotateZ: 2, scale: 0.9 }}
-                  animate={{ opacity: 0.6, x: 24, rotateY: -18, rotateZ: 2, scale: 0.92 }}
-                  exit={{ opacity: 0, x: 40, rotateY: -25, rotateZ: 2, scale: 0.9 }}
-                  transition={{ duration: 0.4 }}
-                  className="absolute inset-y-6 left-0 right-0 mx-auto w-[82%] h-[88%] object-contain select-none pointer-events-none"
-                  style={{ zIndex: 10, filter: 'drop-shadow(0 6px 16px rgba(0,0,0,0.35))' }}
-                />
-
-                {/* Foreground (current) */}
-                <AnimatePresence initial={false} custom={direction}>
-                  <motion.img
-                    key={`curr-${SLIDES[current]}`}
-                    src={SLIDES[current]}
-                    alt={`Slide ${current + 1}`}
-                    role="group"
-                    aria-roledescription="slide"
-                    aria-label={`Slide ${current + 1} of ${SLIDES.length}`}
-                    custom={direction}
-                    variants={variants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    transition={{ type: 'spring', stiffness: 300, damping: 30, opacity: { duration: 0.22 } }}
-                    className="absolute inset-0 w-full h-full object-contain select-none"
-                    style={{ zIndex: 20, filter: 'drop-shadow(0 10px 22px rgba(0,0,0,0.45))' }}
-                    draggable={false}
-                    drag="x"
-                    dragConstraints={{ left: 0, right: 0 }}
-                    dragElastic={0.75}
-                    onDragEnd={(e, { offset, velocity }) => {
-                      const swipe = Math.abs(offset.x) * velocity.x
-                      if (swipe < -500) paginate(1)
-                      else if (swipe > 500) paginate(-1)
-                    }}
-                  />
-                </AnimatePresence>
-                {/* Arrow controls */}
-                <div className="pointer-events-none absolute inset-y-0 left-0 right-0 flex items-center justify-between px-2">
-                  <button
-                    type="button"
-                    aria-label="Previous slide"
-                    onClick={() => paginate(-1)}
-                    className="pointer-events-auto h-9 w-9 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center backdrop-blur-sm transition"
-                  >
-                    ‹
-                  </button>
-                  <button
-                    type="button"
-                    aria-label="Next slide"
-                    onClick={() => paginate(1)}
-                    className="pointer-events-auto h-9 w-9 rounded-full bg-white/20 hover:bg-white/30 text-white flex items-center justify-center backdrop-blur-sm transition"
-                  >
-                    ›
-                  </button>
-                </div>
-              </div>
-              {/* Progress bar */}
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10">
-                <motion.div
-                  key={current}
-                  initial={{ width: 0 }}
-                  animate={{ width: '100%' }}
-                  transition={{ duration: 4, ease: 'linear' }}
-                  className="h-full bg-white/70"
-                />
-              </div>
+              ‹
+            </button>
+            <button
+              type="button"
+              aria-label="Next slide"
+              onClick={() => paginate(1)}
+              className="h-9 w-9 rounded-full bg-brand-orange text-black hover:opacity-90 flex items-center justify-center transition"
+            >
+              ›
+            </button>
+          </div>
+          {/* Progress bar at top (match landing) */}
+          <div className="absolute left-0 right-0 top-0 h-1 bg-black/20">
+            <motion.div
+              key={current}
+              className="h-full bg-brand-orange"
+              initial={{ width: 0 }}
+              animate={{ width: '100%' }}
+              transition={{ duration: AUTO_MS / 1000, ease: 'linear' }}
+            />
+          </div>
+          {/* Caption block (bottom-left) */
+          }
+          <div className="pointer-events-none absolute left-6 right-6 bottom-6 lg:left-10 lg:right-auto lg:bottom-10 max-w-xl">
+            <div className="pointer-events-auto inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-medium backdrop-blur-sm border border-white/20">
+              <span>Featured</span>
             </div>
-            <div className="flex items-center justify-center gap-2">
-              {SLIDES.map((_, i) => (
-                <button
-                  key={i}
-                  aria-label={`Go to slide ${i + 1}`}
-                  aria-current={i === current}
-                  onClick={() => {
-                    setDirection(i > current ? 1 : -1)
-                    setCurrent(i)
-                  }}
-                  className={`h-2.5 w-2.5 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-white/70 ${i === current ? 'bg-white' : 'bg-white/40 hover:bg-white/70'}`}
-                />
-              ))}
-            </div>
-
-            {/* SR-only live region to announce current slide */}
-            <span className="sr-only" aria-live="polite">Slide {current + 1} of {SLIDES.length}</span>
+            <div className="mt-3 text-2xl lg:text-3xl font-semibold leading-tight drop-shadow">{SLIDE_META[current].title}</div>
+            <div className="mt-1 text-sm lg:text-base text-white/90">{SLIDE_META[current].subtitle}</div>
           </div>
         </div>
-        <div className="h-10" />
       </div>
 
       {/* Form card */}
