@@ -164,7 +164,19 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
         {/* Overlay content */}
         <div className="relative z-10 w-full flex flex-col justify-between p-6 lg:p-10">
-          <div className="text-2xl lg:text-3xl font-bold">OnSite</div>
+          <img
+            src="/Logo.png"
+            alt="OnSite"
+            className="h-[9.6rem] lg:h-[11.2rem] w-auto max-w-[720px] object-contain self-center flex-none -translate-x-[14px]"
+          />
+          {/* Caption: centered under logo and pulled up ~50px */}
+          <div className="-mt-[50px] max-w-xl mx-auto text-center -translate-x-[14px]">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-medium backdrop-blur-sm border border-white/20">
+              <span>Featured</span>
+            </div>
+            <div className="mt-2 text-2xl lg:text-3xl font-semibold leading-tight drop-shadow">{SLIDE_META[current].title}</div>
+            <div className="mt-1 text-sm lg:text-base text-white/90">{SLIDE_META[current].subtitle}</div>
+          </div>
           {/* Marketing copy (large screens) */}
           <div className="hidden lg:block lg:self-start lg:ml-24 max-w-md">
             <motion.div
@@ -291,15 +303,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
               transition={{ duration: AUTO_MS / 1000, ease: 'linear' }}
             />
           </div>
-          {/* Caption block (bottom-left) */
-          }
-          <div className="pointer-events-none absolute left-6 right-6 bottom-6 lg:left-10 lg:right-auto lg:bottom-10 max-w-xl">
-            <div className="pointer-events-auto inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-medium backdrop-blur-sm border border-white/20">
-              <span>Featured</span>
-            </div>
-            <div className="mt-3 text-2xl lg:text-3xl font-semibold leading-tight drop-shadow">{SLIDE_META[current].title}</div>
-            <div className="mt-1 text-sm lg:text-base text-white/90">{SLIDE_META[current].subtitle}</div>
-          </div>
+          {/* Caption block removed from bottom-left (now placed under brand) */}
         </div>
       </div>
 

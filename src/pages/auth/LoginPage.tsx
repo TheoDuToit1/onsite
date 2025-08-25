@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import AuthLayout from './AuthLayout'
-import TypeTagline from '@/components/TypeTagline'
 import BackButton from '@/components/BackButton'
 
 const schema = z.object({
@@ -40,12 +39,12 @@ export default function LoginPage() {
 
   return (
     <AuthLayout>
-      <div className="space-y-5 sm:space-y-6">
-        <div className="flex flex-col space-y-2">
+      <div className="space-y-4 sm:space-y-5">
+        <div className="flex flex-col">
           <BackButton className="self-start" onClick={() => navigate('/welcome')} />
-          <TypeTagline />
         </div>
-        
+
+        {/* Heading block (normalized spacing after removing typewriter) */}
         <div className="space-y-2 sm:space-y-3">
           <h1 className="text-xl sm:text-2xl font-semibold">Welcome back to OnSite</h1>
           <p className="text-sm sm:text-base text-neutral-700">Your all-in-one solution for South African businesses</p>

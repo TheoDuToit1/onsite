@@ -9,7 +9,6 @@ import { useAuthStore } from '../../state/auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import TypeTagline from '@/components/TypeTagline'
 import BackButton from '@/components/BackButton'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue } from '@/components/ui/select'
 
@@ -51,15 +50,12 @@ export default function SignupPage() {
 
   return (
     <AuthLayout>
-      <div className="space-y-6 sm:space-y-8">
-        <div className="flex flex-col space-y-1">
+      <div className="space-y-5 sm:space-y-6">
+        <div className="flex flex-col">
           <BackButton className="self-start" onClick={() => navigate('/welcome')} />
-          <div className="min-h-6 sm:min-h-8">
-            <TypeTagline />
-          </div>
         </div>
         
-        <div className="space-y-1">
+        <div className="space-y-2 sm:space-y-3">
           <h1 className="text-2xl sm:text-3xl font-semibold leading-tight">Register your business</h1>
           <p className="text-sm sm:text-base text-neutral-700">Join thousands of South African businesses growing with OnSite</p>
         </div>
