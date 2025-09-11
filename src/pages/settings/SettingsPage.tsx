@@ -180,7 +180,7 @@ export default function SettingsPage() {
         }
       } else {
         // No profile row; try to load latest org by created_by and link it
-        if (authUser?.user_metadata?.full_name) setName(authUser.user_metadata.full_name)
+        if (authUser?.name) setName(authUser.name)
         const { data: latestOrgNoProf, error: latestErrNoProf } = await supabase
           .schema('core')
           .from('organizations')
